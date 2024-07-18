@@ -25,7 +25,7 @@ export const login = async (req, res) => {
         email: user.email,
         fullName: user.fullName,
         phoneNumber: user.phoneNumber,
-        role:user.role,
+        role: user.role,
       };
       const token = jwt.sign(payload, process.env.JWT_SECRET);
       res.cookie("access_token", token).json({ success: true, data: payload });
