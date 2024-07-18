@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import usersRouter from "./routes/users.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import carsRouter from "./routes/cars.routes.js"
 
 config();
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", usersRouter);
 app.use("/api/auth/login", authRouter);
+app.use("/api/cars", carsRouter);
 app.listen(3000, () => {
   console.log("sever is running on port 3000...");
 });

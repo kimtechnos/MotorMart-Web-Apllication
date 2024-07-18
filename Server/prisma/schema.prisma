@@ -8,15 +8,46 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// User model
 model User {
-  id          String @id @default(uuid())
-  fullName     String
-  email       String @unique
-  phoneNumber String @unique
+  id          String  @id @default(uuid())
+  fullName    String
+  email       String  @unique
+  phoneNumber String  @unique
   password    String
   role        String? @default("user")
+  cars        Car[]   @relation("UserCars")
+  inquiries   Inquiry[]
 
   @@map("users_table")
+}
+
+//  Car model
+model Car {
+  id          String   @id @default(uuid())
+  make        String
+  model       String
+  year        Int
+  price       Float
+  description String
+  imageUrl    String
+  ownerId     String
+  owner       User     @relation("UserCars", fields: [ownerId], references: [id])
+  inquiries   Inquiry[]
+
+  @@map("table_cars")
+}
+
+// Inquiry model
+model Inquiry {
+  id      String @id @default(uuid())
+  userId  String
+  carId   String
+  message String
+  user    User   @relation(fields: [userId], references: [id])
+  car     Car    @relation(fields: [carId], references: [id])
+
+  @@map("table_inquiries")
 }
 
 datasource db {
