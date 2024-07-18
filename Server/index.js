@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import usersRouter from "./routes/users.routes.js";
 import authRouter from "./routes/auth.routes.js";
-import carsRouter from "./routes/cars.routes.js"
+import carsRouter from "./routes/cars.routes.js";
 
 config();
 const app = express();

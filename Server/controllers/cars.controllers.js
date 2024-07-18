@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 
 export const creatcar = async (req, res) => {
   try {
-    
     if (!req.user || !req.user.id) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
@@ -12,20 +11,19 @@ export const creatcar = async (req, res) => {
     const ownerId = req.user.id;
     const { make, model, year, price, description, imageUrl } = req.body;
 
-     const existingCar = await prisma.car.findFirst({
-       where: {
-         make: make,
-         model: model,
-         year: year,
-       },
-     });
+    const existingCar = await prisma.car.findFirst({
+      where: {
+        make: make,
+        model: model,
+        year: year,
+      },
+    });
 
-     if (existingCar) {
-       return res
-         .status(400)
-         .json({ success: false, message: "Car already exists" });
-     }
-
+    if (existingCar) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Car already exists" });
+    }
 
     await prisma.car.create({
       data: {
@@ -48,12 +46,10 @@ export const creatcar = async (req, res) => {
   }
 };
 
-
 export const updatecar = async (req, res) => {
   const id = req.params.id;
 
   try {
-  
     if (!req.user || req.user.role !== "admin") {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
@@ -86,7 +82,6 @@ export const getAllcars = async (req, res) => {
   }
 };
 
-
 export const getSingleCar = async (req, res) => {
   const id = req.params.id;
   try {
@@ -108,7 +103,6 @@ export const deletecar = async (req, res) => {
   const { id } = req.params;
 
   try {
-    
     if (!req.user || req.user.role !== "admin") {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
