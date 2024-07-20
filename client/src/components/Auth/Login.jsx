@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import "./register.css";
+import toast from "react-simple-toasts";
+import { useNavigate } from "react-router-dom";
+import { apiBase } from "../../utils/config";
+import "./register-log.css";
 
 const validationSchema = yup.object({
   email: yup
@@ -15,16 +18,59 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
+  const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values) => {
+    setSubmitting(true);
+
+    try {
+      const response = await fetch(`${apiBase}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include"
+      });
+      console.log(response)
+      const data = await response.json();
+      console.log(data);
+      if (data.success === true){
+        if(data.data.role=== 'admin'){
+          
+          navigate("/admin/welcome")
+        }else{
+           
+          navigate("/user/welcom")
+
+        }
+
+
+      }else{
+
+      }
+      toast(data.message, {theme:"failure"})
+
+     
+    } catch (err) {
+    
+      toast(err.message , {
+        theme: "failure",
+        duration: 4000,
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      // Handle form submission
-      console.log("Form values:", values);
-    },
+    onSubmit: handleSubmit,
   });
 
   return (
@@ -68,8 +114,8 @@ const Login = () => {
               <div className="error">{formik.errors.password}</div>
             ) : null}
           </div>
-          <button type="submit" className="btn">
-            Login
+          <button type="submit" className="btn" disabled={submitting}>
+            {submitting ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>
