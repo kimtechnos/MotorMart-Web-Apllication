@@ -39,3 +39,12 @@ body {
   max-width: 1800px;
   margin: 0 auto;
 }
+.admin-layout {
+  display: flex;
+  height: 100vh;
+}
+.admin-main {
+  flex: 1;
+  padding: 20px; 
+  background-color: #ebeaea; 
+}

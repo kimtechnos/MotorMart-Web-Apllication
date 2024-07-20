@@ -1,0 +1,50 @@
+/* adminNav.css */
+#admin-sidebar{
+    width: 200px;
+    background-color: var(--color-black-light);
+    color: white;
+    height: 100vh;
+    padding:20px;
+    box-sizing: border-box;
+
+}
+.sidebar-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 20px;
+}
+.sidebar-brand{
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+.icon_header{
+    margin-right: 10px;
+}
+.sidebar-list{
+    list-style-type: none;
+    padding: 0;
+}
+.sidebar-list-item {
+    margin-bottom: 15px;
+}
+.sidebar-list-item a{
+    color:var(--color-black);
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+.sidebar-list-item a:hover {
+  color:var(--color-white);
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 5px;
+  border-radius: 5px;
+}
+.icon{
+    margin-right: 10px;
+    color:rgb(17, 88, 9);
+}
