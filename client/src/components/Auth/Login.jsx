@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import toast from "react-simple-toasts";
+import "react-simple-toasts/dist/theme/dark.css";
+import "react-simple-toasts/dist/theme/success.css";
+import "react-simple-toasts/dist/theme/failure.css";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../../utils/config";
 import "./register-log.css";
@@ -31,31 +34,22 @@ const Login = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
-        credentials: "include"
+        credentials: "include",
       });
-      console.log(response)
       const data = await response.json();
-      console.log(data);
-      if (data.success === true){
-        if(data.data.role=== 'admin'){
-          
-          navigate("/admin/welcome")
-        }else{
-           
-          navigate("/user/welcom")
 
+      if (response.ok && data.success === true) {
+        toast(data.message || "Login success", { theme: "success" });
+        if (data.data.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/user/dashboard");
         }
-
-
-      }else{
-
+      } else {
+        toast(data.message || "Login failed", { theme: "failure" });
       }
-      toast(data.message, {theme:"failure"})
-
-     
     } catch (err) {
-    
-      toast(err.message , {
+      toast(err.message || "An error occurred. Please try again.", {
         theme: "failure",
         duration: 4000,
       });

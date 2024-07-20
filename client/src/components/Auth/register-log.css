@@ -13,7 +13,7 @@
   margin: 80px auto;
   padding: 25px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+} 
 @media screen and (max-width:34.43em) {
   .form {
     max-width: 400px;

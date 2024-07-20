@@ -3,6 +3,9 @@ import "./register-log.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import toast from "react-simple-toasts";
+import "react-simple-toasts/dist/theme/dark.css";
+import "react-simple-toasts/dist/theme/success.css"; 
+import "react-simple-toasts/dist/theme/failure.css";  
 import * as yup from "yup";
 import { apiBase } from "../../utils/config";
 
