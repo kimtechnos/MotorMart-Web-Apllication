@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./register.css";
+import "./register-log.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import toast from "react-simple-toasts";
