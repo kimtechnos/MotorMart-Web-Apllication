@@ -22,7 +22,7 @@ body {
   --color-secondary-light: #ff8a50;
   --color-accent: #ffd700;
   --color-black: #1d1d1d;
-  --color-black-light: #4a4a4a;
+  --color-black-light: #8dae8c;
   --color-white: #ffffff;
   --color-white-light: #e3dbdb;
   --color-red: #bd0000;
@@ -42,9 +42,21 @@ body {
 .admin-layout {
   display: flex;
   height: 100vh;
+  
 }
 .admin-main {
   flex: 1;
   padding: 20px; 
+
   background-color: #ebeaea; 
+}
+.user-layout {
+  display: flex;
+  height: 100vh; 
+}
+
+.user-main {
+  flex: 1; 
+  padding: 20px; 
+  background-color: #f4f4f4; 
 }
