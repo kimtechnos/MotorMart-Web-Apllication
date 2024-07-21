@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const creatcar = async (req, res) => {
+export const createCar = async (req, res) => {
   try {
     if (!req.user || !req.user.id) {
       return res.status(401).json({ success: false, message: "Unauthorized" });
@@ -10,12 +10,21 @@ export const creatcar = async (req, res) => {
 
     const ownerId = req.user.id;
     const { make, model, year, price, description, imageUrl } = req.body;
+    const yearInt = parseInt(year, 10);
+    if (isNaN(yearInt)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "invalid year provided" });
+    }
 
+    console.log("Received request to create car with data:", req.body);
+
+    // Check for existing car
     const existingCar = await prisma.car.findFirst({
       where: {
         make: make,
         model: model,
-        year: year,
+        year: yearInt,
       },
     });
 
@@ -25,12 +34,13 @@ export const creatcar = async (req, res) => {
         .json({ success: false, message: "Car already exists" });
     }
 
+    // Create new car
     await prisma.car.create({
       data: {
         make: make,
         model: model,
-        year: year,
-        price: price,
+        year: yearInt,
+        price: parseFloat(price),
         description: description,
         imageUrl: imageUrl,
         ownerId: ownerId,
@@ -41,7 +51,7 @@ export const creatcar = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Car created successfully" });
   } catch (e) {
-    console.error(e.message);
+    console.error("Error creating car:", e.message);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

@@ -41,7 +41,7 @@ body {
 }
 .admin-layout {
   display: flex;
-  height: 100vh;
+   height: 110vh; 
   
 }
 .admin-main {
