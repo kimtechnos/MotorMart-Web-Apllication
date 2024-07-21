@@ -1,0 +1,56 @@
+/* userNav.css */
+.user-sidebar {
+  width: 250px; 
+  background-color: #041409;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.user-sidebar-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  margin-bottom: 20px;
+}
+
+.user-sidebar-brand {
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.user-icon-header {
+  margin-right: 10px;
+}
+
+.user-sidebar-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user-sidebar-list-item {
+  margin-bottom: 15px;
+}
+
+.user-sidebar-list-item a {
+  color: #9e9ea4;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.user-sidebar-list-item a:hover {
+  color: var(--color-white);
+  background-color: rgba(33, 58, 39, 0.45);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.user-icon {
+  margin-right: 10px;
+}
