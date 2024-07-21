@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { apiBase } from "../../utils/config";
+import toast from "react-simple-toasts";
+import "react-simple-toasts/dist/theme/dark.css";
+import "react-simple-toasts/dist/theme/success.css";
+import "react-simple-toasts/dist/theme/failure.css";
 
 const ManageCars = () => {
   const [car, setCar] = useState({
@@ -43,14 +47,17 @@ const ManageCars = () => {
 
       if (response.ok) {
         console.log("Car added successfully!");
+        toast("Car added successfully!", {theme:"success"});
       } else {
         const data = await response.json();
         console.log("Error response data:", data);
-        setError(data.message || "Failed to add car");
+        setError(data.message );
+        toast(data.message || "Failed to add car", {theme:"failure"});
       }
     } catch (error) {
       console.error("Error adding car:", error);
       setError("Error adding car");
+      toast("Error adding car", {theme:"failure"});
     }
   };
 

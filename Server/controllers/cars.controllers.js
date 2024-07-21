@@ -19,21 +19,6 @@ export const createCar = async (req, res) => {
 
     console.log("Received request to create car with data:", req.body);
 
-    // Check for existing car
-    const existingCar = await prisma.car.findFirst({
-      where: {
-        make: make,
-        model: model,
-        year: yearInt,
-      },
-    });
-
-    if (existingCar) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Car already exists" });
-    }
-
     // Create new car
     await prisma.car.create({
       data: {
