@@ -1,7 +1,7 @@
 import { Router } from "express";
 import verifyAdmin from "../middlewares/verifyadmin.js";
 import {
-  creatcar,
+  createCar,
   updatecar,
   deletecar,
   getAllcars,
@@ -10,7 +10,7 @@ import {
 
 const router = Router();
 
-router.post("/add", verifyAdmin, creatcar);
+router.post("/add", verifyAdmin, createCar);
 router.get("/", getAllcars);
 router.get("/:id", getSingleCar);
 router.patch("/:id", verifyAdmin, updatecar);
