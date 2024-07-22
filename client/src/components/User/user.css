@@ -3,11 +3,15 @@
   width: 250px; 
   background-color: #041409;
   color: white;
-  height: 100vh;
   padding: 20px;
   box-sizing: border-box;
 }
-
+.user-welcome{
+  text-transform: capitalize;
+  font-size: 13px;
+  font-weight: bold;
+  color: rgb(132, 231, 19);
+}
 .user-sidebar-title {
   display: flex;
   justify-content: space-between;
@@ -53,4 +57,27 @@
 
 .user-icon {
   margin-right: 10px;
+}
+.user-dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin: 0 auto;
+}
+
+.user-dashboard h1 {
+  font-size: 2em;
+  font-weight: bold;
+  
+
+  margin-top: 40px;
+  color: red;
+}
+
+.user-dashboard h2 {
+  font-size: 1.3em; 
+  color: rgb(93, 89, 165);
 }

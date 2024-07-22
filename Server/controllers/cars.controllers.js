@@ -101,6 +101,9 @@ export const deletecar = async (req, res) => {
     if (!req.user || req.user.role !== "admin") {
       return res.status(401).json({ success: false, message: "Unauthorized" });
     }
+    await prisma.inquiry.deleteMany({
+      where: { carId: id },
+    });
 
     const deletedCar = await prisma.car.delete({
       where: { id },

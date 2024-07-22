@@ -12,6 +12,7 @@ import UserNavBar from './components/User/UserNavBar';
 import AdminDashboard from './components/Admin/AdminDashboard'
 import ManageUsers from './components/Admin/ManageUsers'
 import ManageCars from './components/Admin/ManageCars'
+import AddCars from './components/Admin/AddCars';
 import ManageInquiries from './components/Admin/ManageInquiries'
 import UserDashboard from './components/User/UserDashboard';
 import ViewCar from './components/User/ViewCar';
@@ -70,6 +71,7 @@ function App() {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="manage-users" element={<ManageUsers />} />
               <Route path="manage-cars" element={<ManageCars />} />
+              <Route path="add-cars" element={<AddCars />} />
               <Route path="manage-inquiries" element={<ManageInquiries />} />
             </Route>
 

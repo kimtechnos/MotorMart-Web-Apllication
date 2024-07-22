@@ -7,6 +7,7 @@ import "react-simple-toasts/dist/theme/success.css";
 import "react-simple-toasts/dist/theme/failure.css";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../../utils/config";
+import useUserStore from "../../store/useUserstore";
 import "./register-log.css";
 
 const validationSchema = yup.object({
@@ -23,6 +24,9 @@ const validationSchema = yup.object({
 const Login = () => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+  const changeUserInformation = useUserStore(
+    (state) => state.changeUserInformation
+  );
 
   const handleSubmit = async (values) => {
     setSubmitting(true);
@@ -40,6 +44,7 @@ const Login = () => {
 
       if (response.ok && data.success === true) {
         toast(data.message || "Login success", { theme: "success" });
+        changeUserInformation(data.data); 
         if (data.data.role === "admin") {
           navigate("/admin/dashboard");
         } else {
