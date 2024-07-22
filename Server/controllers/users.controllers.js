@@ -33,6 +33,17 @@ export const getAllusers = async (req, res) => {
     res.status(500).json({ success: false, message: e.message });
   }
 };
+export const getSingleuser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const getSingleuser = await prisma.user.findUnique({
+      where: { id: id },
+    });
+    res.status(200).json(getSingleuser);
+  } catch (e) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+};
 export const deleteUser = async (req, res) => {
   // res.send("delete user")
   const id = req.params.id;

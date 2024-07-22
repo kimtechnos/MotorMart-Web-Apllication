@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", usersRouter);
-app.use("/api/auth/login", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/cars", carsRouter);
 app.use("/api/inquiries", inquiryRouter);
 app.listen(3000, () => {

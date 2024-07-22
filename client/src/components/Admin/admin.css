@@ -3,10 +3,16 @@
     width: 200px;
     background-color: var(--color-black-light);
     color: white;
-     height: 110vh; 
+     /* height: 110vh;  */
     padding:20px;
     box-sizing: border-box;
 
+}
+.user-welcome-a{
+  text-transform: capitalize;
+  font-size: 13px;
+  font-weight: bold;
+  color: rgb(27, 15, 137);
 }
 
 .sidebar-title{
@@ -176,4 +182,43 @@
 .cars-section{
     display: flex;
     flex-direction: row;
+}
+/*admin add cars */
+.cars-list{
+ display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  /* justify-content: space-between; */
+  flex-wrap: wrap;
+  gap: 20px;
+
+}
+.car-card{
+  display: flex;
+  width: 400px;
+  overflow: hidden;
+  border: solid;
+}
+.car-img{
+  width: 500px; 
+  overflow: hidden;
+ 
+}
+.car-img img {
+  width: 100%;
+  height: auto;
+}
+.delete-btn{
+  border: none;
+  padding: 3px;
+  text-align: center;
+  background-color: var(--color-red);
+  color: var(--color-white);
+  border-radius: 4px;
+  cursor: pointer;
+  
+}
+.delete-btn :hover{
+  background-color: var(--color-primary);
 }
