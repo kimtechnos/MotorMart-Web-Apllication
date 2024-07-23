@@ -28,14 +28,14 @@ const ViewCar = () => {
 
   return (
     <div className="section-user-cars">
-    <h1>Available cars</h1>
-    <div className="cars-list">
-   
+      <h1>Drive in Style: Our Showroom Highlights</h1>
+      <div className="cars-list">
         {cars.map((car) => (
           <UserCarcard
             key={car.id}
             carImg={car.imageUrl}
-            carTitle={`${car.make} ${car.model}`}
+            carMake={car.make}
+            carModel={car.model}
             carYear={car.year}
             carPrice={car.price}
             carDescription={car.description}

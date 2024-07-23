@@ -21,7 +21,7 @@ const CarCard = ({
         <h2>{carTitle}</h2>
         <p className="year">{carYear}</p>
         <p className="description">{carDescription}</p>
-        <p className="price">{carPrice} $</p>
+        <p className="price">{carPrice} Ksh</p>
         <button className="delete-btn" onClick={() => onDelete(id)}>
           Delete
         </button>

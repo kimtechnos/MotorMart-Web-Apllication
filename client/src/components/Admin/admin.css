@@ -9,7 +9,7 @@
 
 }
 .user-welcome-a{
-  text-transform: capitalize;
+  text-transform: uppercase;
   font-size: 13px;
   font-weight: bold;
   color: rgb(27, 15, 137);
@@ -195,30 +195,71 @@
     flex-direction: row;
 }
 /*admin add cars */
-.cars-list{
+ .section-admin-cars{
  display: flex;
+ flex: wrap;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
-  /* justify-content: space-between; */
-  flex-wrap: wrap;
+   flex-wrap: wrap;
+  gap: 20px;
+}
+@media screen and (max-width:40.8em){
+  h1{
+    font-size: 20px;
+
+  }
+  
+}
+
+.cars-list{
+ display: flex;
+justify-content: center;
+ flex-wrap: wrap;
   gap: 20px;
 
 }
 .car-card{
-  display: flex;
-  width: 400px;
+ background-color:var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: solid;
+  width: 300px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.car-card:hover{
+  transform: translatey(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 .car-img{
-  width: 500px; 
+  
   overflow: hidden;
+  margin: 0 auto;
+  padding: 20px;
+  height: 200px;
  
 }
 .car-img img {
   width: 100%;
   height: auto;
+}
+.car-info {
+  padding: 15px;
+  text-align: center;
+}
+.car-info h2{
+  margin: 10px 0;
+  font-size: 20px;
+  
+}
+.car-info p {
+  margin: 5px 0;
+  color:var(--color-primary);
+}
+.car-info .price {
+  font-size: 18px;
+  font-weight: bold;
+  color:var(--color-red);
 }
 .delete-btn{
   border: none;

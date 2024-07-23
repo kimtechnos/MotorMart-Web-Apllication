@@ -18,7 +18,7 @@ import UserDashboard from './components/User/UserDashboard';
 import ViewCar from './components/User/ViewCar';
 import PostInquiry from './components/User/inquiry';
 import UserProfile from './components/User/profile';
-import Logout from './components/User/Logout';
+
 
 import './App.css'
 
@@ -81,7 +81,7 @@ function App() {
               <Route path="view-cars" element={<ViewCar />} />
               <Route path="post-inquiry" element={<PostInquiry />} />
               <Route path="profile" element={<UserProfile />} />
-              <Route path="logout" element={<Logout />} />
+              
             </Route>
           </Route>
         </Routes>

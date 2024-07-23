@@ -42,7 +42,7 @@ const UserNavBar = () => {
   return (
     <aside id="user-sidebar" className="user-sidebar">
     
-      {user && <div className="user-welcome">Welcome, {user.fullName}!</div>}
+      {user && <div className="user-welcome">{"Welcome"}, {user.fullName}!</div>}
       <div className="user-sidebar-title">
         <div className="user-sidebar-brand">
           <BsFillGridFill className="user-icon-header" /> User Panel
@@ -64,11 +64,10 @@ const UserNavBar = () => {
             <BsFillPersonFill className="user-icon" /> Profile
           </Link>
         </li>
-        <li className="user-sidebar-list-item">
+         
           <Link to="/user/post-inquiry">
-            <BsChatDotsFill className="user-icon" /> Post Inquiry
-          </Link>
-        </li>
+           </Link>
+        
         <li className="user-sidebar-list-item">
           <button onClick={handleLogout} className="user-logout-button">
             <BsBoxArrowRight className="user-icon" /> Logout
