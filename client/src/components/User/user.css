@@ -39,7 +39,16 @@
 .user-sidebar-list-item {
   margin-bottom: 15px;
 }
-
+.user-sidebar-list-item button{
+  color:white;
+  background-color:transparent;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+.user-sidebar-list-item button:hover{
+ background-color: red;
+}
 .user-sidebar-list-item a {
   color: #9e9ea4;
   text-decoration: none;
@@ -80,4 +89,78 @@
 .user-dashboard h2 {
   font-size: 1.3em; 
   color: rgb(93, 89, 165);
+}
+/*User profile */
+.profile-container{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color:rgb(202, 224, 224);
+  padding: 20px;
+
+}
+.user-welcome-profile{
+  margin-bottom: 20px;
+  color: rgb(25, 145, 215);
+  text-transform: uppercase;
+  font-size: 24px;
+  text-align: center;
+  align-items:  center;
+  }
+.form-section{
+  display:flex;
+  width: 90%;
+  max-width: 500px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #efedec;
+ border-radius: 10px;
+  padding: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+ .form-section label {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #9e6161;
+}
+.form-section input{
+ 
+  display: flex;
+  margin: 5px auto;
+
+ padding: 10px;
+ margin-bottom: 5px;
+ border: none;
+ border-radius: 5px;
+ font-size: 14px;
+ 
+}
+.form-section button{
+ padding: 10px 20px;
+ border: none;
+ border-radius: 5px;
+ background-color: green;
+ color:white;
+ font-size: 16px;
+ cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+.form-section button:hover {
+  background-color: #1543af;
+}
+@media screen and (max-width: 48em) {
+  .form-section{
+    width: 70%;
+  }
+  
+}
+@media screen and (max-width: 64em) {
+  .form-section{
+    width: 50%;
+  }
+  
 }

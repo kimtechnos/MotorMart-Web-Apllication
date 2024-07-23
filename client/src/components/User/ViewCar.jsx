@@ -27,7 +27,7 @@ const ViewCar = () => {
   }, []);
 
   return (
-    <div>
+    <div className="section-user-cars">
     <h1>Available cars</h1>
     <div className="cars-list">
    

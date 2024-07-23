@@ -37,7 +37,7 @@ const AdminNavBar = () => {
   };
   return (
     <aside id="admin-sidebar" className="sidebar">
-      {user && <div className="user-welcome-a">Welcome,{user.fullName}!</div>}
+       
       <div className="sidebar-title">
         <div className="sidebar-brand">
           <BsFillArchiveFill className="icon_header" /> Admin Panel

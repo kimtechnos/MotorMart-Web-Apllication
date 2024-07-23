@@ -35,6 +35,16 @@
     list-style-type: none;
     padding: 0;
 }
+.user-sidebar-list button{
+  color:white;
+  background-color:transparent;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+.user-sidebar-list button:hover{
+ background-color: red;
+}
 .sidebar-list-item {
     margin-bottom: 15px;
 }
@@ -51,6 +61,7 @@
   padding: 5px;
   border-radius: 5px;
 }
+
 .icon{
     margin-right: 10px;
     color:rgb(17, 88, 9);
