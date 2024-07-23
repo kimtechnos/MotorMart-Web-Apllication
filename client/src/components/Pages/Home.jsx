@@ -1,10 +1,12 @@
 import React from 'react'
+import ManageCars from "../Admin/ManageCars"
 
 const Home = () => {
   return (
     <div>
-    <br /><br /><br /> <br />
-    Home
+   <h1>home</h1>
+    
+ 
       
     </div>
   )

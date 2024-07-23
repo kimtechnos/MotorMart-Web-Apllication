@@ -4,6 +4,7 @@ import "react-simple-toasts/dist/theme/dark.css";
 import "react-simple-toasts/dist/theme/success.css";
 import "react-simple-toasts/dist/theme/failure.css";
 import { apiBase } from '../../utils/config';
+import "./user.css";
 
 
 const profile = () => {
