@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className="bar"></div>
       </div>
       <div className={`nav-items ${isOpen ? "open" : ""}`}>
-        <Link to="/" onClick={handleLinkClick}>
+        <Link to="/home" onClick={handleLinkClick}>
           Home
         </Link>
         <Link to="/about" onClick={handleLinkClick}>
@@ -42,7 +42,7 @@ const Navbar = () => {
         <Link to="/contact" onClick={handleLinkClick}>
           Contact
         </Link>
-        <Link to="/register" className="nav-login" onClick={handleLinkClick}>
+        <Link to="/" className="nav-login" onClick={handleLinkClick}>
           Register
         </Link>
         <Link to="/login" className="nav-signup" onClick={handleLinkClick}>
