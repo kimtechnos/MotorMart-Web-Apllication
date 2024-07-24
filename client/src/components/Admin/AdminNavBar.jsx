@@ -1,5 +1,5 @@
 import React from "react";
-import { Link,Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiBase } from "../../utils/config";
 import {
   BsFillArchiveFill,
@@ -37,7 +37,11 @@ const AdminNavBar = () => {
   };
   return (
     <aside id="admin-sidebar" className="sidebar">
-       
+      {user && (
+        <div className="user-welcome">
+          {"Welcome"}, {user.fullName}!
+        </div>
+      )}
       <div className="sidebar-title">
         <div className="sidebar-brand">
           <BsFillArchiveFill className="icon_header" /> Admin Panel

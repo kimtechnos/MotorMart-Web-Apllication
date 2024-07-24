@@ -30,6 +30,7 @@
 }
 .icon_header{
     margin-right: 10px;
+    
 }
 .sidebar-list{
     list-style-type: none;
@@ -302,4 +303,12 @@ justify-content: center;
 .section-users ,.delete-btn{
   padding: 10px;
   
+}
+/*section inquiries*/
+.section-inquiries{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
