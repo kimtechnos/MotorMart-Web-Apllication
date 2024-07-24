@@ -19,7 +19,6 @@ import ViewCar from './components/User/ViewCar';
 import PostInquiry from './components/User/inquiry';
 import UserProfile from './components/User/profile';
 
-
 import './App.css'
 
 
@@ -60,11 +59,11 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Register />} />
 
             {/* Admin routes */}
             <Route path="admin" element={<AdminLayout />}>
@@ -81,7 +80,7 @@ function App() {
               <Route path="view-cars" element={<ViewCar />} />
               <Route path="post-inquiry" element={<PostInquiry />} />
               <Route path="profile" element={<UserProfile />} />
-              
+             
             </Route>
           </Route>
         </Routes>

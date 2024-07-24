@@ -27,7 +27,13 @@ export const createUser = async (req, res) => {
 
 export const getAllusers = async (req, res) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      where: {
+        role: {
+          not: "admin",
+        },
+      },
+    });
     res.status(200).json(users);
   } catch (e) {
     res.status(500).json({ success: false, message: e.message });

@@ -52,8 +52,8 @@ const Inquiry = () => {
   return (
     <div className="inquiry-form-container">
       <h1>Intrested with:</h1>
-      <h2>CarMake: {carMake}</h2>
-      <h3>CarModel:{carModel}</h3>
+      <h2>manufacturer: {carMake}</h2>
+      <h3>CarModel:{carModel}:?</h3>
       <form className="inquiry-form" onSubmit={handleSubmit}>
         <label>
           Message:
@@ -62,6 +62,7 @@ const Inquiry = () => {
             value={message}
             onChange={handleChange}
             placeholder="Write your inquiry message here..."
+            required
           />
         </label>
         <br />

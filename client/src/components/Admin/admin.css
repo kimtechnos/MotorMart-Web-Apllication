@@ -274,3 +274,32 @@ justify-content: center;
 .delete-btn :hover{
   background-color: var(--color-primary);
 }
+/*users section */
+.section-users{
+  display: flex;
+  flex-direction:column;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding:20px;
+  align-items: center;
+  justify-content: center;
+
+}
+.users-table{
+ width: 100%;
+ border-collapse: collapse;
+}
+.users-table th,
+.users-table td{
+   border: 1px solid #67ad81;
+  padding: 10px;
+  text-align: left;
+}
+.users-table th{
+  background-color:var(--color-white) ;
+  
+}
+.section-users ,.delete-btn{
+  padding: 10px;
+  
+}

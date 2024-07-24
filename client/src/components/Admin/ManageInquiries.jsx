@@ -1,4 +1,10 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
+import axios from 'axios';
+import toast from "react-simple-toasts";
+import "react-simple-toasts/dist/theme/dark.css";
+import "react-simple-toasts/dist/theme/success.css";
+import "react-simple-toasts/dist/theme/failure.css";
+
 
 const ManageInquiries = () => {
   return (
