@@ -29,7 +29,7 @@ const ManageInquiries = () => {
   },[]);
   return (
     <div className="section-inquiries">
-      <h1>User and Car Inquiries</h1>
+      <h1 className='inquiries-title'>User and Car Inquiries</h1>
       <div className="inquiries">
         <div className="inquiries-list">
           {inquiries.map((inquiry) => (
