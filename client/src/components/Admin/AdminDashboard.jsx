@@ -12,7 +12,6 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState(0);
   const [cars, setCars] = useState(0);
   const [inquiries, setInquiries] = useState(0);
-   
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,26 +21,21 @@ const AdminDashboard = () => {
             axios.get(`${apiBase}/api/users`, { withCredentials: true }),
             axios.get(`${apiBase}/api/cars`, { withCredentials: true }),
             axios.get(`${apiBase}/api/inquiries`, { withCredentials: true }),
-            
           ]);
 
         console.log("Users Response:", usersResponse.data);
         console.log("Cars Response:", carsResponse.data);
         console.log("Inquiries Response:", inquiriesResponse.data);
-      
 
         setUsers(usersResponse.data.length);
-        
+
         setCars(carsResponse.data.length);
-         if (
-           inquiriesResponse.data &&
-           Array.isArray(inquiriesResponse.data.data)
-         ) {
-           setInquiries(inquiriesResponse.data.data.length);
-    
-         }
-     
-        
+        if (
+          inquiriesResponse.data &&
+          Array.isArray(inquiriesResponse.data.data)
+        ) {
+          setInquiries(inquiriesResponse.data.data.length);
+        }
 
         toast("Data fetched successfully", { theme: "success" });
       } catch (error) {
@@ -86,4 +80,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-

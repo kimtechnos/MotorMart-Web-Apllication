@@ -1,22 +1,20 @@
-import React,{useState} from 'react'
+import React, { useState } from "react";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
 import "react-simple-toasts/dist/theme/success.css";
 import "react-simple-toasts/dist/theme/failure.css";
-import { apiBase } from '../../utils/config';
+import { apiBase } from "../../utils/config";
 import "./user.css";
-
 
 const profile = () => {
   const storedData = JSON.parse(localStorage.getItem("motarmart-user"));
   const user = storedData?.state?.user;
   const [userData, setUserData] = useState(user || {});
-  const [password ,setpassword]= useState('');
+  const [password, setpassword] = useState("");
 
-  const handlePasswordChange = (e) =>{
+  const handlePasswordChange = (e) => {
     setpassword(e.target.value);
-
-  }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,11 +27,10 @@ const profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const updateData={
+      const updateData = {
         ...userData,
-        ...(password && {password}),
-      }
-      
+        ...(password && { password }),
+      };
 
       const response = await fetch(`${apiBase}/api/users/update/${user.id}`, {
         method: "PATCH",
@@ -60,17 +57,16 @@ const profile = () => {
       console.error("Error updating profile", error);
       toast("Error occurred while updating the profile", { theme: "failure" });
     }
-     
   };
-  
- 
 
   return (
-    <div className='profile-container'>
+    <div className="profile-container">
       <h1>
-        {user && <div className="user-welcome-profile"> {user.fullName}: Profile</div>}
+        {user && (
+          <div className="user-welcome-profile"> {user.fullName}: Profile</div>
+        )}
       </h1>
-      <form className='form-section' onSubmit={handleSubmit}>
+      <form className="form-section" onSubmit={handleSubmit}>
         <label>
           Fullname:
           <input
@@ -80,7 +76,7 @@ const profile = () => {
             onChange={handleChange}
           />
         </label>
-       
+
         <label>
           Email:
           <input
@@ -90,7 +86,7 @@ const profile = () => {
             onChange={handleChange}
           />
         </label>
-       
+
         <label>
           Phone Number:
           <input
@@ -100,22 +96,21 @@ const profile = () => {
             onChange={handleChange}
           />
         </label>
-      
+
         <label>
           update password:
           <input
             type="password"
             name="password"
-            value={password || ''}
+            value={password || ""}
             onChange={handlePasswordChange}
           />
         </label>
-       
+
         <button type="submit">Update Profile</button>
       </form>
     </div>
   );
 };
-
 
 export default profile;

@@ -1,8 +1,6 @@
-
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import UserNavBar from './UserNavBar';
-
+import React from "react";
+import { Outlet } from "react-router-dom";
+import UserNavBar from "./UserNavBar";
 
 const UserDashboardLayout = () => (
   <div className="user-dashboard-layout">

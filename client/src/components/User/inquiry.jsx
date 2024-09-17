@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaPhone } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import toast from "react-simple-toasts";
-import "./user.css"
+import "./user.css";
 
 import { apiBase } from "../../utils/config";
 

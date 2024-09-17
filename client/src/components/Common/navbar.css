@@ -6,7 +6,7 @@
   align-items: center;
   background-color: var(--color-primary);
   padding: 0 1rem;
-   position: fixed; 
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 50;
@@ -63,7 +63,7 @@
 }
 
 .nav-items a:hover {
-  color: var( --color-accent);
+  color: var(--color-accent);
 }
 
 @media screen and (max-width: 53.937em) {
