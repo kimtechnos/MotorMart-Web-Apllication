@@ -27,7 +27,6 @@ import UserProfile from "./components/User/profile";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Unauthorized from "./utils/Unauthorized";
 
-
 import "./App.css";
 
 const AdminLayout = () => (
@@ -54,7 +53,7 @@ const MainLayout = () => {
   const isUserRoute = location.pathname.startsWith("/user");
   return (
     <>
-      {!isAdminRoute && !isUserRoute && <Navbar/>}
+      {!isAdminRoute && !isUserRoute && <Navbar />}
       <Outlet />
     </>
   );

@@ -1,37 +1,36 @@
-.section-user-cars{
- display: flex;
- flex: wrap;
+.section-user-cars {
+  display: flex;
+  flex: wrap;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
-   flex-wrap: wrap;
+  flex-wrap: wrap;
   gap: 20px;
-
 }
-.user-car-card{
-   background-color: var(--color-white);
-   border-radius: 8px;
-   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.user-car-card {
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   width: 300px;
   overflow: hidden;
   cursor: pointer;
   border: 1px solid #ddd;
-   transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 .user-car-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-.user-car-img{
-  width: 200px; 
+.user-car-img {
+  width: 200px;
   overflow: hidden;
- 
 }
 .user-car-img img {
   width: 100%;
   height: auto;
- 
 }
 .car-info {
   padding: 15px;

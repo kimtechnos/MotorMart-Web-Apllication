@@ -1,7 +1,6 @@
-
 import React from "react";
 
-import "./admin.css"
+import "./admin.css";
 
 const CarCard = ({
   carImg,
@@ -26,7 +25,6 @@ const CarCard = ({
           Delete
         </button>
       </div>
-      
     </div>
   );
 };

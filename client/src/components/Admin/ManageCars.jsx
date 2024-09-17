@@ -41,7 +41,7 @@ const ManageCars = () => {
 
   return (
     <div className="section-admin-cars">
-   <h1> Oversee and Control Inventory</h1>
+      <h1> Oversee and Control Inventory</h1>
       <div className="cars-list">
         {cars.map((car) => (
           <CarCard

@@ -18,7 +18,7 @@ const ImageUpload = ({ onUpload }) => {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
       const data = await response.json();
       console.log("Response data:", data);
@@ -39,7 +39,7 @@ const ImageUpload = ({ onUpload }) => {
       setError(null);
       try {
         const imageUrl = await uploadImage(file);
-        onUpload(imageUrl); 
+        onUpload(imageUrl);
       } catch (err) {
         setError(err.message || "Image upload failed. Please try again.");
       } finally {

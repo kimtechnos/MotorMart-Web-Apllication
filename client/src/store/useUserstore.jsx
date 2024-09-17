@@ -12,7 +12,7 @@ const userStore = (set) => ({
 });
 
 const useUserStore = create(
-  devtools(persist(userStore, { name: "motarmart-user" }))
+  devtools(persist(userStore, { name: "motarmart-user" })),
 );
 
 export default useUserStore;

@@ -9,13 +9,12 @@ const UserCarcard = ({
   carYear,
   carPrice,
   carDescription,
-  
 }) => {
   const navigate = useNavigate();
 
   const handleInquiryClick = () => {
     navigate("/user/post-inquiry", {
-      state: { carMake, carModel},
+      state: { carMake, carModel },
     });
   };
 

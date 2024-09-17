@@ -1,35 +1,31 @@
-import React,{useState,useEffect} from 'react'
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
 import "react-simple-toasts/dist/theme/success.css";
 import "react-simple-toasts/dist/theme/failure.css";
-import "./admin.css"
-import { apiBase } from '../../utils/config';
-
+import "./admin.css";
+import { apiBase } from "../../utils/config";
 
 const ManageInquiries = () => {
-  const[inquiries,setInquiries]= useState([]);
-  useEffect(()=>{
-    const fetchInquiries = async ()=>{
-      try{
-        const response = await axios.get(`${apiBase}/api/inquiries`,{
-          withCredentials:true,
+  const [inquiries, setInquiries] = useState([]);
+  useEffect(() => {
+    const fetchInquiries = async () => {
+      try {
+        const response = await axios.get(`${apiBase}/api/inquiries`, {
+          withCredentials: true,
         });
         setInquiries(response.data.data);
-
-
-      }catch(error){
+      } catch (error) {
         console.log("erroer fetching the data ", error);
-        toast("failed to fetch data", {theme:"failure"});
-
+        toast("failed to fetch data", { theme: "failure" });
       }
     };
     fetchInquiries();
-  },[]);
+  }, []);
   return (
     <div className="section-inquiries">
-      <h1 className='inquiries-title'>User and Car Inquiries</h1>
+      <h1 className="inquiries-title">User and Car Inquiries</h1>
       <div className="inquiries">
         <div className="inquiries-list">
           {inquiries.map((inquiry) => (
@@ -61,6 +57,6 @@ const ManageInquiries = () => {
       </div>
     </div>
   );
-}
+};
 
-export default ManageInquiries
+export default ManageInquiries;

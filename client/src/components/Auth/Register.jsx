@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
-import "react-simple-toasts/dist/theme/success.css"; 
-import "react-simple-toasts/dist/theme/failure.css";  
+import "react-simple-toasts/dist/theme/success.css";
+import "react-simple-toasts/dist/theme/failure.css";
 import * as yup from "yup";
 import { apiBase } from "../../utils/config";
 
@@ -17,7 +17,7 @@ const validationSchema = yup.object({
     .required("Email is required"),
   phoneNumber: yup
     .string()
-     .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
+    .matches(/^[0-9]{10}$/, "Phone number must be 10 digits")
     .required("Phone number is required"),
   password: yup
     .string()
@@ -47,16 +47,15 @@ const Register = () => {
 
       if (response.ok) {
         toast("Registration successful!", { theme: "success", duration: 4000 });
-        navigate("/login"); 
+        navigate("/login");
       } else {
         setError(data.message || "An error occurred. Please try again.");
-        toast(data.message ,{
+        toast(data.message, {
           theme: "failure",
           duration: 4000,
         });
       }
     } catch (err) {
-    
       toast(err.message, {
         theme: "failure",
         duration: 4000,

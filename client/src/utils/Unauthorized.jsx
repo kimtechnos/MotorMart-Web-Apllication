@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const Unauthorized = () => {
   return (
@@ -7,6 +7,6 @@ const Unauthorized = () => {
       <p>You do not have permission to view this page.</p>
     </div>
   );
-}
+};
 
-export default Unauthorized
+export default Unauthorized;

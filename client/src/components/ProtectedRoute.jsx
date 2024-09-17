@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ProtectedRoute = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  return <div></div>;
+};
 
-export default ProtectedRoute
+export default ProtectedRoute;

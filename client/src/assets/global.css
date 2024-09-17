@@ -41,25 +41,21 @@ body {
 }
 .admin-layout {
   display: flex;
-  min-height: 100vh; 
-  
+  min-height: 100vh;
 }
 .admin-main {
   flex: 1;
-  padding: 20px; 
+  padding: 20px;
 
-  background-color: #ebeaea; 
+  background-color: #ebeaea;
 }
 .user-layout {
   display: flex;
   min-height: 100vh;
-  
- 
-
 }
 
 .user-main {
-  flex: 1; 
-  padding: 20px; 
-  background-color: #f4f4f4; 
+  flex: 1;
+  padding: 20px;
+  background-color: #f4f4f4;
 }

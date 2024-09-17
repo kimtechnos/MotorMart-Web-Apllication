@@ -1,5 +1,5 @@
-import React from 'react'
-import "./user.css"
+import React from "react";
+import "./user.css";
 
 const UserDashboard = () => {
   return (
@@ -8,6 +8,6 @@ const UserDashboard = () => {
       <h2>Select an option from the menu to proceed.</h2>
     </div>
   );
-}
+};
 
-export default UserDashboard
+export default UserDashboard;

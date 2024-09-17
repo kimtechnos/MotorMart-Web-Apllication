@@ -1,5 +1,5 @@
 import React from "react";
-import "./admin.css"
+import "./admin.css";
 
 const Usercard = ({ id, fullName, email, phoneNumber, onDelete }) => {
   return (

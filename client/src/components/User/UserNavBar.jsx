@@ -13,8 +13,8 @@ import "./user.css";
 const UserNavBar = () => {
   const navigate = useNavigate();
   const storedData = JSON.parse(localStorage.getItem("motarmart-user"));
-    const user = storedData?.state?.user;
-   console.log("Retrieved user from local storage:",user);
+  const user = storedData?.state?.user;
+  console.log("Retrieved user from local storage:", user);
 
   const handleLogout = async () => {
     try {
@@ -25,11 +25,9 @@ const UserNavBar = () => {
       const data = await response.json();
 
       if (data.success) {
-        
         localStorage.removeItem("motarmart-user");
-        localStorage.removeItem("authToken"); 
+        localStorage.removeItem("authToken");
 
-        
         navigate("/");
       } else {
         console.error("Logout failed:", data.message);
@@ -41,8 +39,11 @@ const UserNavBar = () => {
 
   return (
     <aside id="user-sidebar" className="user-sidebar">
-    
-      {user && <div className="user-welcome">{"Welcome"}, {user.fullName}!</div>}
+      {user && (
+        <div className="user-welcome">
+          {"Welcome"}, {user.fullName}!
+        </div>
+      )}
       <div className="user-sidebar-title">
         <div className="user-sidebar-brand">
           <BsFillGridFill className="user-icon-header" /> User Panel
@@ -64,10 +65,9 @@ const UserNavBar = () => {
             <BsFillPersonFill className="user-icon" /> Profile
           </Link>
         </li>
-         
-          <Link to="/user/post-inquiry">
-           </Link>
-        
+
+        <Link to="/user/post-inquiry"></Link>
+
         <li className="user-sidebar-list-item">
           <button onClick={handleLogout} className="user-logout-button">
             <BsBoxArrowRight className="user-icon" /> Logout
