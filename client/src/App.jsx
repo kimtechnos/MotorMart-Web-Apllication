@@ -24,7 +24,9 @@ import UserDashboard from "./components/User/UserDashboard";
 import ViewCar from "./components/User/ViewCar";
 import PostInquiry from "./components/User/inquiry";
 import UserProfile from "./components/User/profile";
-import isAuth from "./utils/isAuth";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
+import Unauthorized from "./utils/Unauthorized";
+
 
 import "./App.css";
 
@@ -60,42 +62,41 @@ const MainLayout = () => {
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<MainLayout />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Register />} />
+    <BrowserRouter>
+      <Routes>
+        {/* Public routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-            {/* protected Admin routes */}
-            <Route element={isAuth()}>
-              <Route path="admin" element={<AdminLayout />}>
-                <Route path="dashboard" element={<AdminDashboard />} />
-                <Route path="manage-users" element={<ManageUsers />} />
-                <Route path="manage-cars" element={<ManageCars />} />
-                <Route path="add-cars" element={<AddCars />} />
-                <Route path="manage-inquiries" element={<ManageInquiries />} />
-              </Route>
-            </Route>
+        {/* Unauthorized route */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
-            {/* protected  User routes */}
-            <Route element={isAuth()}>
-              <Route path="user" element={<UserLayout />}>
-                <Route path="dashboard" element={<UserDashboard />} />
-                <Route path="view-cars" element={<ViewCar />} />
-                <Route path="post-inquiry" element={<PostInquiry />} />
-                <Route path="profile" element={<UserProfile />} />
-              </Route>
-            </Route>
+        {/* Protected Admin Routes */}
+        <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
+          <Route path="admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="manage-users" element={<ManageUsers />} />
+            <Route path="manage-cars" element={<ManageCars />} />
+            <Route path="add-cars" element={<AddCars />} />
+            <Route path="manage-inquiries" element={<ManageInquiries />} />
           </Route>
-        </Routes>
-      </BrowserRouter>
-    </>
+        </Route>
+
+        {/* Protected User Routes */}
+        <Route element={<ProtectedRoutes allowedRoles={["user"]} />}>
+          <Route path="user" element={<UserLayout />}>
+            <Route path="dashboard" element={<UserDashboard />} />
+            <Route path="view-cars" element={<ViewCar />} />
+            <Route path="post-inquiry" element={<PostInquiry />} />
+            <Route path="profile" element={<UserProfile />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
-

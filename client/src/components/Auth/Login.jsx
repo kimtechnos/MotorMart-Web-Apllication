@@ -44,6 +44,9 @@ const Login = () => {
 
       if (response.ok && data.success === true) {
         toast(data.message || "Login success", { theme: "success" });
+        //store the token in local storage
+        window.localStorage.setItem('authToken', data.token);
+        window.localStorage.setItem('userRole', data.data.role);
         changeUserInformation(data.data); 
         if (data.data.role === "admin") {
           navigate("/admin/dashboard");
