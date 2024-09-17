@@ -54,7 +54,7 @@ const MainLayout = () => {
   const isUserRoute = location.pathname.startsWith("/user");
   return (
     <>
-      {!isAdminRoute && !isUserRoute && <Navbar />}
+      {!isAdminRoute && !isUserRoute && <Navbar/>}
       <Outlet />
     </>
   );
@@ -65,11 +65,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route element={<MainLayout />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Register />} />
+        </Route>
 
         {/* Unauthorized route */}
         <Route path="/unauthorized" element={<Unauthorized />} />
