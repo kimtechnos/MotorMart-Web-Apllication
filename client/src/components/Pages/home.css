@@ -69,3 +69,50 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+/*Search section */
+.search {
+  padding: 2rem 0;
+  width: 100%;
+  margin: 0 auto;
+  .title {
+    color: green;
+    font-size: 22px;
+    padding: 1rem 0;
+    text-align: center;
+    font-weight: 700;
+    line-height: 1.7rem;
+  }
+}
+.searchDiv {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.inputWrapper {
+  flex: 1;
+  min-width: 150px;
+}
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+input {
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 5px 10px;
+  outline: none;
+  width: 100%;
+  &:focus {
+    border: 1px solid green;
+  }
+  .btnP {
+    flex-shrink: 0;
+    justify-content: center;
+    width: auto;
+    padding: 10px 20px;
+    background-color: green;
+    color: red;
+  }
+}
