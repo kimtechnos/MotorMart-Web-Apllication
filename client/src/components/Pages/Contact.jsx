@@ -13,8 +13,8 @@ function Contact() {
               <div className="row no-gutters">
                 <div className="col-md-6">
                   <div className="contact-wrap w-100 p-lg-5 p-4">
-                    <br />
-                    <br />
+                    {/* <br />
+                    <br /> */}
                     <h3 className="mb-4">send us a message</h3>
                     <form
                       id="contactForm"
@@ -62,6 +62,8 @@ function Contact() {
                               className="form-control"
                               name="message"
                               placeholder="Message"
+                               cols="30"
+                              rows="6"
                               onChange={handleInputChange}
                             ></textarea>
                           </div>
@@ -82,8 +84,8 @@ function Contact() {
 
                 <div className="col-md-6 d-flex align-items-stretch">
                   <div className="info-wrap w-100 p-lg-5 p-4 img">
-                    <br />
-                    <br />
+                    {/* <br />
+                    <br /> */}
                     <h3>Contact us</h3>
                     <p className="mb-4">
                       we're open for any suggestions or just to have a chat{" "}
@@ -104,7 +106,8 @@ function Contact() {
                       </div>
                       <div className="text pl-3">
                         <p>
-                          <span>Phone:</span>+254 769 334 187
+                          <span>Phone:</span>
+                          <a href="tel://254769334187">+254 769 334 187</a>
                         </p>
                       </div>
                     </div>
@@ -115,6 +118,17 @@ function Contact() {
                       <div className="text pl-3">
                         <p>
                           <span>Email:</span>
+                          <a href="motor@mart.com">motor@mart.com</a>
+                        </p>
+                      </div>
+                    </div>
+                    <div className="dbox w-100 d-flex align-items-start">
+                      <div className="icon d-flex align-items-center justify-content-center">
+                        <span className="fa fa-globe"></span>
+                      </div>
+                      <div className="text pl-3">
+                        <p>
+                          <span>Website:</span>
                           <a href="#">motormart.com</a>
                         </p>
                       </div>
