@@ -7,3 +7,107 @@ body {
   background: #eeeaeae9;
   color: lighten(#000, 40);
 }
+.contact-section {
+  padding: 7em 0;
+}
+.wrapper {
+  width: 100%;
+  -webkit-box-shadow: 0px 21px 41px -13px rgba(0, 0, 0, 0.18);
+  -moz-box-shadow: 0px 21px 41px -13px reba(0, 0, 0, 0.18);
+  box-shadow: 0px 21px 41px -13px rgba(0, 0, 0, 0.18);
+}
+.contact-wrap {
+  background: rgba(26, 237, 11, 0.353);
+  background: -moz-linear-gradient(
+    -45deg,
+    rgba(26, 237, 11, 1) rgb(64, 135, 13)
+  );
+  background: -webkit-gradient(
+    left top,
+    right bottom,
+    color-stop(0%, rgba(127, 39, 156, 1)),
+    color-stop(100%, rgba(46, 39, 157, 1))
+  );
+}
+h3 {
+  color: #8128c0;
+}
+.img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.form-control {
+  height: 62px;
+  background: transparent;
+  color: rgba(13, 24, 28, 0.8) !important;
+  font-size: 16px;
+  border-radius: 0px;
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  &:focus,
+  &:active {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.132) !important;
+  }
+}
+textarea.form-control {
+  height: inherit !important;
+  margin-top: 5px;
+}
+.contactForm {
+  .form-control {
+    border: none;
+    border-bottom: 1px solid rgba(15, 9, 9, 0.2);
+    padding: 0;
+  }
+}
+.info-wrap {
+  h3 {
+    color: #000;
+    position: relative;
+    &:after {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: #d621c1cc;
+      content: "";
+    }
+  }
+}
+.dbox {
+  width: 100%;
+  margin-bottom: 25px;
+  p {
+    margin-bottom: 0;
+    span {
+      font-weight: 400;
+      color: #000;
+    }
+    a {
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+}
+.icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  span {
+    font-size: 20px;
+    color: #000;
+  }
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: "poppins", Arial, sans-serif;
+  color: #000;
+}
