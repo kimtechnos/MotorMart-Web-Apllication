@@ -175,6 +175,11 @@ function Contact() {
     } else if (!validateEmail(email)) {
       toast.error("Please provide a valid email address");
     } else {
+      if (!firebaseDB) {
+        toast.error("Contact form configuration is unavailable");
+        return;
+      }
+
       // Save to Firebase
 
       push(firebaseDB, { name, email, subject, message })
