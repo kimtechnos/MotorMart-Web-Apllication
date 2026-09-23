@@ -3,9 +3,17 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
+const publicUserSelect = {
+  id: true,
+  fullName: true,
+  email: true,
+  phoneNumber: true,
+  role: true,
+};
+
 export const createUser = async (req, res) => {
   try {
-    const { fullName, email, phoneNumber, password, role } = req.body;
+    const { fullName, email, phoneNumber, password } = req.body;
     const hashedpassword = bcrypt.hashSync(password, 10);
     await prisma.user.create({
       data: {
@@ -13,7 +21,6 @@ export const createUser = async (req, res) => {
         email: email,
         phoneNumber: phoneNumber,
         password: hashedpassword,
-        // role:role
       },
     });
     res
@@ -33,6 +40,7 @@ export const getAllusers = async (req, res) => {
           not: "admin",
         },
       },
+      select: publicUserSelect,
     });
     res.status(200).json(users);
   } catch (e) {
@@ -44,6 +52,7 @@ export const getSingleuser = async (req, res) => {
   try {
     const getSingleuser = await prisma.user.findUnique({
       where: { id: id },
+      select: publicUserSelect,
     });
     res.status(200).json(getSingleuser);
   } catch (e) {
@@ -56,6 +65,7 @@ export const deleteUser = async (req, res) => {
   try {
     const deleteUser = await prisma.user.delete({
       where: { id: id },
+      select: publicUserSelect,
     });
     res.status(200).json(deleteUser);
   } catch (e) {
@@ -64,6 +74,12 @@ export const deleteUser = async (req, res) => {
 };
 export const updateUser = async (req, res) => {
   const id = req.params.id;
+
+  if (!req.user?.id || req.user.id !== id) {
+    return res
+      .status(403)
+      .json({ success: false, message: "You can only update your own account" });
+  }
 
   try {
     const { fullName, email, phoneNumber, password } = req.body;
@@ -80,6 +96,7 @@ export const updateUser = async (req, res) => {
     const updatedUser = await prisma.user.update({
       where: { id: id },
       data: updateData,
+      select: publicUserSelect,
     });
 
     res.json({ success: true, data: updatedUser });

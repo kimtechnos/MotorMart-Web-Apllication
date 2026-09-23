@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -8,7 +8,7 @@ import carsRouter from "./routes/cars.routes.js";
 import inquiryRouter from "./routes/inquiry.routes.js";
 
 config();
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(
   cors({
@@ -24,6 +24,10 @@ app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/cars", carsRouter);
 app.use("/api/inquiries", inquiryRouter);
-app.listen(3000, () => {
-  console.log("sever is running on port 3000...");
-});
+
+if (process.env.NODE_ENV !== "test") {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log("sever is running on port " + port + "...");
+  });
+}
