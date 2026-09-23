@@ -17,9 +17,6 @@ export const createCar = async (req, res) => {
         .json({ success: false, message: "invalid year provided" });
     }
 
-    console.log("Received request to create car with data:", req.body);
-
-    // Create new car
     await prisma.car.create({
       data: {
         make: make,
@@ -144,6 +141,9 @@ export const deletecar = async (req, res) => {
 
     res.status(200).json({ success: true, data: deletedCar });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    if (e.code === "P2025") {
+      return res.status(404).json({ success: false, message: "Car not found" });
+    }
+    res.status(500).json({ success: false, message: "Unable to delete vehicle" });
   }
 };

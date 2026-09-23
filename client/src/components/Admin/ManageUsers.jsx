@@ -10,6 +10,7 @@ import { apiBase } from "../../utils/config";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -17,10 +18,11 @@ const ManageUsers = () => {
         const usersResponse = await axios.get(`${apiBase}/api/users`, {
           withCredentials: true,
         });
-        setUsers(usersResponse.data);
-      } catch (error) {
-        console.error("error fetching data", error);
-        toast("Failed to fetch data", { theme: "failure" });
+        setUsers(Array.isArray(usersResponse.data) ? usersResponse.data : []);
+        setStatus("ready");
+      } catch {
+        setStatus("error");
+        toast("Unable to load users", { theme: "failure" });
       }
     };
     fetchUsers();
@@ -34,14 +36,17 @@ const ManageUsers = () => {
       setUsers(users.filter((user) => user.id !== id));
       toast("User deleted successfully", { theme: "success" });
     } catch (error) {
-      console.log("error deleting user", error);
-      toast("Error deleting user", { theme: "failure" });
+      const message = error.response?.data?.message || "Unable to delete user";
+      toast(message, { theme: "failure" });
     }
   };
 
   return (
     <div className="section-users">
       <h1>Manage User Accounts</h1>
+      {status === "loading" ? <p>Loading users...</p> : null}
+      {status === "error" ? <p>Unable to load users.</p> : null}
+      {status === "ready" && users.length === 0 ? <p>No user accounts yet.</p> : null}
       <table className="users-table">
         <thead>
           <tr>

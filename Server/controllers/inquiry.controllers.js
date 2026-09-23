@@ -75,6 +75,6 @@ export const getAllInquiries = async (req, res) => {
 
     res.status(200).json({ success: true, data: inquiries });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load inquiries" });
   }
 };

@@ -12,6 +12,7 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState(0);
   const [cars, setCars] = useState(0);
   const [inquiries, setInquiries] = useState(0);
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,24 +24,17 @@ const AdminDashboard = () => {
             axios.get(`${apiBase}/api/inquiries`, { withCredentials: true }),
           ]);
 
-        console.log("Users Response:", usersResponse.data);
-        console.log("Cars Response:", carsResponse.data);
-        console.log("Inquiries Response:", inquiriesResponse.data);
-
-        setUsers(usersResponse.data.length);
-
-        setCars(carsResponse.data.length);
-        if (
-          inquiriesResponse.data &&
-          Array.isArray(inquiriesResponse.data.data)
-        ) {
-          setInquiries(inquiriesResponse.data.data.length);
-        }
-
-        toast("Data fetched successfully", { theme: "success" });
-      } catch (error) {
-        console.error("Error fetching data", error);
-        toast("Failed to fetch data", { theme: "failure" });
+        setUsers(Array.isArray(usersResponse.data) ? usersResponse.data.length : 0);
+        setCars(Array.isArray(carsResponse.data) ? carsResponse.data.length : 0);
+        setInquiries(
+          Array.isArray(inquiriesResponse.data?.data)
+            ? inquiriesResponse.data.data.length
+            : 0,
+        );
+        setStatus("ready");
+      } catch {
+        setStatus("error");
+        toast("Unable to load dashboard", { theme: "failure" });
       }
     };
 
@@ -52,6 +46,8 @@ const AdminDashboard = () => {
       <div className="main-title">
         <h3>Admin DASHBOARD</h3>
       </div>
+      {status === "loading" ? <p>Loading dashboard...</p> : null}
+      {status === "error" ? <p>Unable to load dashboard.</p> : null}
       <div className="main-cards">
         <div className="card">
           <div className="card-inner">

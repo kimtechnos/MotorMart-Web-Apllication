@@ -27,8 +27,7 @@ export const createUser = async (req, res) => {
       .status(201)
       .json({ success: true, message: "user registered successfully" });
   } catch (e) {
-    console.log(e.message);
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to register" });
   }
 };
 
@@ -44,19 +43,22 @@ export const getAllusers = async (req, res) => {
     });
     res.status(200).json(users);
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load users" });
   }
 };
 export const getSingleuser = async (req, res) => {
   const id = req.params.id;
   try {
-    const getSingleuser = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { id: id },
       select: publicUserSelect,
     });
-    res.status(200).json(getSingleuser);
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.status(200).json(user);
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load user" });
   }
 };
 export const deleteUser = async (req, res) => {
@@ -116,6 +118,11 @@ export const updateUser = async (req, res) => {
 
     res.json({ success: true, data: updatedUser });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    if (e.code === "P2002") {
+      return res
+        .status(409)
+        .json({ success: false, message: "Email or phone number is already in use" });
+    }
+    res.status(500).json({ success: false, message: "Unable to update account" });
   }
 };
