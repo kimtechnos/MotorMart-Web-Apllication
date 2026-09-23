@@ -9,8 +9,11 @@ const ImageUpload = ({ onUpload }) => {
     const formData = new FormData();
     formData.append("file", image);
 
-    const uploadPreset = "ml_kimtech";
-    const cloudName = "djbuzeizs";
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    if (!uploadPreset || !cloudName) {
+      throw new Error("Image upload is not configured");
+    }
     formData.append("upload_preset", uploadPreset);
 
     try {

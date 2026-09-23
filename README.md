@@ -75,7 +75,9 @@ Client (`client/.env`):
 
 | Name | Purpose |
 | --- | --- |
-| `VITE_API_URL_BASE` | API origin, with no trailing slash. Locally this is `http://localhost:3000`. |
+| `VITE_API_URL_BASE` | API origin, with no trailing slash. Locally this is `http://localhost:3000`. On Render, use the service origin. |
+| `VITE_CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name for admin vehicle photos. |
+| `VITE_CLOUDINARY_UPLOAD_PRESET` | Unsigned Cloudinary upload preset. |
 
 Server (`Server/.env`):
 
@@ -193,7 +195,7 @@ The hosted database is Supabase. The API host is Render. The website can be any 
 Render settings for the API:
 
 - Root directory: `Server`
-- Build command: `npm install --include=dev && npx prisma generate && npx prisma migrate deploy`
+- Build command: `npm install && npx prisma generate && npx prisma migrate deploy`
 - Start command: `npm start`
 - Environment: `DATABASE_URL`, `JWT_SECRET`, `FRONTEND_ORIGIN`, `NODE_ENV=production`
 
@@ -204,7 +206,7 @@ No live deployment URL is recorded yet.
 ## Known limitations
 
 - Vite 8, Vitest 5, React Router 7, and bcrypt 6 are deferred because each upgrade is a major change. The remaining dependency advisories are on those packages. The bcrypt advisory is in the `tar` package used while installing bcrypt, not in request handling.
-- Vehicle photos still use a Cloudinary unsigned upload preset in the admin upload component.
+- Admin photo upload depends on a Cloudinary unsigned preset. The cloud name and preset come from the client environment.
 - Screenshots and a demo link will be added after a verified deployment.
 
 ## Screenshots
