@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./register-log.css";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
 import "react-simple-toasts/dist/theme/success.css";
@@ -77,9 +77,11 @@ const Register = () => {
   });
 
   return (
-    <div className="form">
-      <div className="form-body">
+    <div className="auth-screen">
+      <div className="form">
+        <p className="badge">MotorMart</p>
         <h1>Register</h1>
+        <p className="muted">Create a customer account to inquire about a vehicle.</p>
         <form onSubmit={formik.handleSubmit}>
           <div className="username">
             <label className="form__label" htmlFor="fullName">
@@ -158,6 +160,9 @@ const Register = () => {
           </button>
           {error && <div className="error">{error}</div>}
         </form>
+        <p className="muted">
+          Already registered? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   );
