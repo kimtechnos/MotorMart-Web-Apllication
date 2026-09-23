@@ -62,7 +62,7 @@ export function getPrisma() {
 
 export async function resetDatabase() {
   await prisma.$executeRawUnsafe(
-    'TRUNCATE TABLE "table_inquiries", "table_cars", "users_table" RESTART IDENTITY CASCADE',
+    'TRUNCATE TABLE "contact_messages", "table_inquiries", "table_cars", "users_table" RESTART IDENTITY CASCADE',
   );
 }
 

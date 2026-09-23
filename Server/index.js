@@ -6,6 +6,7 @@ import usersRouter from "./routes/users.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import carsRouter from "./routes/cars.routes.js";
 import inquiryRouter from "./routes/inquiry.routes.js";
+import contactRouter from "./routes/contact.routes.js";
 
 config();
 export const app = express();
@@ -24,6 +25,7 @@ app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/cars", carsRouter);
 app.use("/api/inquiries", inquiryRouter);
+app.use("/api/contact", contactRouter);
 
 if (process.env.NODE_ENV !== "test") {
   const port = process.env.PORT || 3000;

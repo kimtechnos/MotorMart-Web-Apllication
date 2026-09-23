@@ -38,6 +38,17 @@ model Car {
   @@map("table_cars")
 }
 
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}
+
 // Inquiry model
 model Inquiry {
   id      String @id @default(uuid())
