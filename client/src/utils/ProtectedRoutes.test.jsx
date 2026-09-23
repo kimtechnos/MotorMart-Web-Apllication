@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import useUserStore from "../store/useUserstore";
 import ProtectedRoutes from "./ProtectedRoutes";
 
 const renderProtectedAdminRoute = () =>
@@ -16,32 +17,45 @@ const renderProtectedAdminRoute = () =>
     </MemoryRouter>,
   );
 
+const sessionResponse = (user, status = 200) =>
+  Promise.resolve(
+    new Response(JSON.stringify({ success: status === 200, data: user }), {
+      status,
+      headers: { "Content-Type": "application/json" },
+    }),
+  );
+
 describe("ProtectedRoutes", () => {
   beforeEach(() => {
-    window.localStorage.clear();
+    useUserStore.setState({ user: null });
+    vi.restoreAllMocks();
   });
 
-  it("redirects guests to login", () => {
-    renderProtectedAdminRoute();
-
-    expect(screen.getByText("Login page")).toBeInTheDocument();
-  });
-
-  it("redirects users without the allowed role", () => {
-    window.localStorage.setItem("authToken", "token");
-    window.localStorage.setItem("userRole", "user");
+  it("redirects guests to login", async () => {
+    vi.stubGlobal("fetch", () => sessionResponse(null, 401));
 
     renderProtectedAdminRoute();
 
-    expect(screen.getByText("Unauthorized page")).toBeInTheDocument();
+    expect(await screen.findByText("Login page")).toBeInTheDocument();
   });
 
-  it("renders the nested route for an allowed user", () => {
-    window.localStorage.setItem("authToken", "token");
-    window.localStorage.setItem("userRole", "admin");
+  it("redirects users without the allowed role", async () => {
+    vi.stubGlobal("fetch", () =>
+      sessionResponse({ fullName: "Driver", role: "user" }),
+    );
 
     renderProtectedAdminRoute();
 
-    expect(screen.getByText("Admin dashboard")).toBeInTheDocument();
+    expect(await screen.findByText("Unauthorized page")).toBeInTheDocument();
+  });
+
+  it("renders the nested route for an allowed user", async () => {
+    vi.stubGlobal("fetch", () =>
+      sessionResponse({ fullName: "Owner", role: "admin" }),
+    );
+
+    renderProtectedAdminRoute();
+
+    expect(await screen.findByText("Admin dashboard")).toBeInTheDocument();
   });
 });

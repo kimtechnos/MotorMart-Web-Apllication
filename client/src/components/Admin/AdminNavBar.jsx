@@ -8,13 +8,15 @@ import {
   BsListCheck,
   BsBoxArrowRight,
 } from "react-icons/bs";
+import useUserStore from "../../store/useUserstore";
 import "./admin.css";
 
 const AdminNavBar = () => {
   const navigate = useNavigate();
-  const storedData = JSON.parse(localStorage.getItem("motarmart-user"));
-  const user = storedData?.state?.user;
-  console.log("Retrieved user from local storage:", user);
+  const user = useUserStore((state) => state.user);
+  const clearUserInformation = useUserStore(
+    (state) => state.clearUserInformation,
+  );
   const handleLogout = async () => {
     try {
       const response = await fetch(`${apiBase}/api/auth/logout`, {
@@ -24,8 +26,7 @@ const AdminNavBar = () => {
       const data = await response.json();
 
       if (data.success) {
-        localStorage.removeItem("authToken");
-
+        clearUserInformation();
         navigate("/");
       } else {
         console.error("Logout failed:", data.message);

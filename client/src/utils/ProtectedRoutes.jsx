@@ -1,19 +1,60 @@
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-const ProtectedRoutes = ({ allowedRoles }) => {
-  const isLoggedIn = window.localStorage.getItem("authToken"); // Check if the token exists
-  const userRole = window.localStorage.getItem("userRole"); // Get the user role
+import useUserStore from "../store/useUserstore";
+import { apiBase } from "./config";
 
-  if (!isLoggedIn) {
-    // If not logged in, redirect to login
+const ProtectedRoutes = ({ allowedRoles }) => {
+  const user = useUserStore((state) => state.user);
+  const changeUserInformation = useUserStore(
+    (state) => state.changeUserInformation,
+  );
+  const clearUserInformation = useUserStore(
+    (state) => state.clearUserInformation,
+  );
+  const [status, setStatus] = useState("loading");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch(`${apiBase}/api/auth/session`, { credentials: "include" })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Unauthorized");
+        }
+        return response.json();
+      })
+      .then((body) => {
+        if (cancelled) {
+          return;
+        }
+        changeUserInformation(body.data);
+        setStatus("ready");
+      })
+      .catch(() => {
+        if (cancelled) {
+          return;
+        }
+        clearUserInformation();
+        setStatus("anonymous");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [changeUserInformation, clearUserInformation]);
+
+  if (status === "loading") {
+    return null;
+  }
+
+  if (status === "anonymous" || !user) {
     return <Navigate to="/login" />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(userRole)) {
-    // If user role is not allowed, redirect to unauthorized page
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
     return <Navigate to="/unauthorized" />;
   }
 
-  // If authenticated and role matches, render the component (children)
   return <Outlet />;
 };
 

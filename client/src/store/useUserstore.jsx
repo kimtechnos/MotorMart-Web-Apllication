@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { devtools } from "zustand/middleware";
 
 const userStore = (set) => ({
   user: null,
@@ -11,8 +11,6 @@ const userStore = (set) => ({
   },
 });
 
-const useUserStore = create(
-  devtools(persist(userStore, { name: "motarmart-user" })),
-);
+const useUserStore = create(devtools(userStore));
 
 export default useUserStore;
