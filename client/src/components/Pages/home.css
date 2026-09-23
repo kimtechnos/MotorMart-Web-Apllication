@@ -122,5 +122,25 @@ input:focus {
   width: auto;
   padding: 10px 20px;
   background-color: green;
-  color: white; /* Changed for better readability */
+  color: white;
+}
+
+.search-results {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.search-result {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.search-result img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
 }

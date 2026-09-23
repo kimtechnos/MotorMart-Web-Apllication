@@ -70,10 +70,33 @@ export const updatecar = async (req, res) => {
 };
 export const getAllcars = async (req, res) => {
   try {
-    const users = await prisma.car.findMany();
-    res.status(200).json(users);
+    const where = {};
+    if (req.query.make) {
+      where.make = { contains: String(req.query.make), mode: "insensitive" };
+    }
+    if (req.query.model) {
+      where.model = { contains: String(req.query.model), mode: "insensitive" };
+    }
+    if (req.query.year) {
+      const year = Number.parseInt(req.query.year, 10);
+      if (!Number.isNaN(year)) {
+        where.year = year;
+      }
+    }
+    if (req.query.maxPrice) {
+      const maxPrice = Number.parseFloat(req.query.maxPrice);
+      if (!Number.isNaN(maxPrice)) {
+        where.price = { lte: maxPrice };
+      }
+    }
+
+    const cars = await prisma.car.findMany({
+      where,
+      orderBy: [{ make: "asc" }, { model: "asc" }],
+    });
+    res.status(200).json(cars);
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load vehicles" });
   }
 };
 
