@@ -10,10 +10,11 @@ import contactRouter from "./routes/contact.routes.js";
 
 config();
 export const app = express();
+const frontendOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: frontendOrigin,
     methods: ["POST", "GET", "PATCH", "DELETE"],
     credentials: true,
   }),
