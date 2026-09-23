@@ -11,11 +11,20 @@ const filtersFromParams = (searchParams) => ({
   maxPrice: searchParams.get("maxPrice") || "",
 });
 
+const formatPrice = (price) => {
+  const amount = Number(price);
+  if (Number.isNaN(amount)) {
+    return `${price} Ksh`;
+  }
+  return `${amount.toLocaleString("en-KE")} Ksh`;
+};
+
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [form, setForm] = useState(() => filtersFromParams(searchParams));
   const [cars, setCars] = useState([]);
   const [status, setStatus] = useState("loading");
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -53,7 +62,7 @@ const Home = () => {
     return () => {
       cancelled = true;
     };
-  }, [searchParams]);
+  }, [searchParams, retry]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -73,99 +82,148 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="secContainer">
-        <div className="homeText">
-          <span className="homeSpan">Meet your new car</span>
-          <h1 className="homeTitle">MotorMart</h1>
-          <div className="btns">
+      <section className="hero wrap">
+        <div className="hero-copy">
+          <p className="badge">Vehicle marketplace</p>
+          <h1>Find a car, then ask about that exact listing.</h1>
+          <p className="lede">
+            MotorMart is a catalog of vehicles you can search by make, model,
+            year, or budget. Every inquiry stays attached to one car.
+          </p>
+          <div className="hero-actions">
             <a className="btn" href="#vehicle-search">
-              More Details
+              Browse cars
             </a>
-            <a className="btn primaryBtn" href="#vehicle-search">
-              Search inventory
-            </a>
+            <Link className="btn secondary" to="/about">
+              How it works
+            </Link>
           </div>
         </div>
-      </div>
-      <div className="homeImage">
-        <img src={homeImage} alt="MG6 car model" />
-      </div>
-      <section className="search" id="vehicle-search">
-        <div className="secContainer container">
-          <h3 className="title">Which vehicle are you looking for?</h3>
-          <form onSubmit={handleSubmit}>
-            <div className="searchDiv">
-              <div className="inputWrapper">
-                <label htmlFor="make">Make</label>
-                <input
-                  type="text"
-                  id="make"
-                  name="make"
-                  placeholder="Make"
-                  value={form.make}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="inputWrapper">
-                <label htmlFor="model">Model</label>
-                <input
-                  type="text"
-                  id="model"
-                  name="model"
-                  placeholder="Model"
-                  value={form.model}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="inputWrapper">
-                <label htmlFor="year">Year</label>
-                <input
-                  type="number"
-                  id="year"
-                  name="year"
-                  placeholder="Year"
-                  value={form.year}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="inputWrapper">
-                <label htmlFor="maxPrice">Max price</label>
-                <input
-                  type="number"
-                  id="maxPrice"
-                  name="maxPrice"
-                  placeholder="Max price"
-                  value={form.maxPrice}
-                  onChange={handleChange}
-                />
-              </div>
-              <button type="submit" className="btn primaryBtn">
-                Search
+        <div className="hero-visual">
+          <img src={homeImage} alt="MG6 parked in profile" />
+        </div>
+      </section>
+
+      <section className="search wrap panel" id="vehicle-search">
+        <div className="section-heading">
+          <h2>Search the inventory</h2>
+          <p className="muted">Leave a field blank if you do not want to filter by it.</p>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="search-form">
+            <div className="field">
+              <label htmlFor="make">Make</label>
+              <input
+                type="text"
+                id="make"
+                name="make"
+                placeholder="Toyota"
+                value={form.make}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="model">Model</label>
+              <input
+                type="text"
+                id="model"
+                name="model"
+                placeholder="Axio"
+                value={form.model}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="year">Year</label>
+              <input
+                type="number"
+                id="year"
+                name="year"
+                placeholder="2020"
+                value={form.year}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="maxPrice">Max price</label>
+              <input
+                type="number"
+                id="maxPrice"
+                name="maxPrice"
+                placeholder="1500000"
+                value={form.maxPrice}
+                onChange={handleChange}
+              />
+            </div>
+            <button type="submit" className="btn">
+              Search
+            </button>
+          </div>
+        </form>
+
+        <div className="search-results" aria-live="polite">
+          {status === "loading" ? (
+            <div className="catalog-grid" aria-busy="true">
+              <p className="sr-only">Loading vehicles...</p>
+              <div className="skeleton" />
+              <div className="skeleton" />
+              <div className="skeleton" />
+            </div>
+          ) : null}
+          {status === "error" ? (
+            <div className="empty-state">
+              <p>We couldn&apos;t load vehicles. Try again.</p>
+              <button type="button" className="btn" onClick={() => setRetry((n) => n + 1)}>
+                Try again
               </button>
             </div>
-          </form>
-          <div className="search-results" aria-live="polite">
-            {status === "loading" ? <p>Loading vehicles...</p> : null}
-            {status === "error" ? <p>Unable to load vehicles.</p> : null}
-            {status === "ready" && cars.length === 0 ? (
-              <p>No vehicles match your search.</p>
-            ) : null}
-            {status === "ready"
-              ? cars.map((car) => (
-                  <article key={car.id} className="search-result">
-                    <img src={car.imageUrl} alt={`${car.make} ${car.model}`} />
+          ) : null}
+          {status === "ready" && cars.length === 0 ? (
+            <p className="empty-state">No vehicles match your search.</p>
+          ) : null}
+          {status === "ready" && cars.length > 0 ? (
+            <div className="catalog-grid">
+              {cars.map((car) => (
+                <article key={car.id} className="vehicle-card">
+                  <img
+                    src={car.imageUrl}
+                    alt={`${car.make} ${car.model}`}
+                    loading="lazy"
+                  />
+                  <div className="vehicle-card-body">
                     <h2>
                       {car.make} {car.model}
                     </h2>
                     <p>
-                      {car.year} · {car.price} Ksh
+                      {car.year} · {formatPrice(car.price)}
                     </p>
-                    <Link to={`/cars/${car.id}`}>View details</Link>
-                  </article>
-                ))
-              : null}
-          </div>
+                    <Link className="btn secondary" to={`/cars/${car.id}`}>
+                      View details
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : null}
         </div>
+      </section>
+
+      <section className="steps wrap">
+        <h2>How MotorMart works</h2>
+        <ol>
+          <li>
+            <strong>Search the catalog.</strong>
+            <span>Filter by make, model, year, or a maximum price.</span>
+          </li>
+          <li>
+            <strong>Open one vehicle.</strong>
+            <span>Review the photo, year, price, and description.</span>
+          </li>
+          <li>
+            <strong>Send an inquiry.</strong>
+            <span>Create an account so the message stays tied to that car.</span>
+          </li>
+        </ol>
       </section>
     </div>
   );

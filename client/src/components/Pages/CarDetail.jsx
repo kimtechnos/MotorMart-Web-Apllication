@@ -3,6 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { apiBase } from "../../utils/config";
 import "./home.css";
 
+const formatPrice = (price) => {
+  const amount = Number(price);
+  if (Number.isNaN(amount)) {
+    return `${price} Ksh`;
+  }
+  return `${amount.toLocaleString("en-KE")} Ksh`;
+};
+
 const CarDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -53,24 +61,29 @@ const CarDetail = () => {
 
   return (
     <article className="car-detail">
-      <img src={car.imageUrl} alt={`${car.make} ${car.model}`} />
-      <h1>
-        {car.make} {car.model}
-      </h1>
-      <p>{car.year}</p>
-      <p>{car.price} Ksh</p>
-      <p>{car.description}</p>
-      <button
-        type="button"
-        className="btn primaryBtn"
-        onClick={() =>
-          navigate("/user/post-inquiry", {
-            state: { carId: car.id, carMake: car.make, carModel: car.model },
-          })
-        }
-      >
-        Send an inquiry
-      </button>
+      <div className="car-detail-media panel">
+        <img src={car.imageUrl} alt={`${car.make} ${car.model}`} />
+      </div>
+      <div className="car-detail-copy panel" style={{ padding: "2.4rem" }}>
+        <p className="badge">{car.year}</p>
+        <h1>
+          {car.make} {car.model}
+        </h1>
+        <p className="car-detail-price">{formatPrice(car.price)}</p>
+        <p>{car.description}</p>
+        <button
+          type="button"
+          className="btn"
+          onClick={() =>
+            navigate("/user/post-inquiry", {
+              state: { carId: car.id, carMake: car.make, carModel: car.model },
+            })
+          }
+        >
+          Send an inquiry
+        </button>
+        <p className="muted">An account is required before the message is sent.</p>
+      </div>
     </article>
   );
 };
