@@ -60,16 +60,31 @@ export const getSingleuser = async (req, res) => {
   }
 };
 export const deleteUser = async (req, res) => {
-  // res.send("delete user")
   const id = req.params.id;
   try {
-    const deleteUser = await prisma.user.delete({
+    const [cars, inquiries] = await Promise.all([
+      prisma.car.count({ where: { ownerId: id } }),
+      prisma.inquiry.count({ where: { userId: id } }),
+    ]);
+
+    if (cars > 0 || inquiries > 0) {
+      return res.status(409).json({
+        success: false,
+        message:
+          "This account still has cars or inquiries and cannot be deleted",
+      });
+    }
+
+    const deletedUser = await prisma.user.delete({
       where: { id: id },
       select: publicUserSelect,
     });
-    res.status(200).json(deleteUser);
-  } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(200).json(deletedUser);
+  } catch (error) {
+    if (error.code === "P2025") {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.status(500).json({ success: false, message: "Unable to delete user" });
   }
 };
 export const updateUser = async (req, res) => {
