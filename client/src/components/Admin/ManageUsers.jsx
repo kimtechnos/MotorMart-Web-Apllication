@@ -47,6 +47,7 @@ const ManageUsers = () => {
       {status === "loading" ? <p>Loading users...</p> : null}
       {status === "error" ? <p>Unable to load users.</p> : null}
       {status === "ready" && users.length === 0 ? <p>No user accounts yet.</p> : null}
+      <div className="table-scroll">
       <table className="users-table">
         <thead>
           <tr>
@@ -69,6 +70,7 @@ const ManageUsers = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

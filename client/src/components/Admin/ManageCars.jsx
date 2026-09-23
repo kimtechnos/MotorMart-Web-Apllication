@@ -43,7 +43,7 @@ const ManageCars = () => {
 
   return (
     <div className="section-admin-cars">
-      <h1> Oversee and Control Inventory</h1>
+      <h1>Inventory</h1>
       {status === "loading" ? <p>Loading vehicles...</p> : null}
       {status === "error" ? <p>Unable to load vehicles.</p> : null}
       {status === "ready" && cars.length === 0 ? <p>No vehicles yet.</p> : null}

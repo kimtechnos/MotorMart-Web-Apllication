@@ -44,33 +44,35 @@ const AdminDashboard = () => {
   return (
     <main className="main-container">
       <div className="main-title">
-        <h3>Admin DASHBOARD</h3>
+        <h1>Overview</h1>
       </div>
       {status === "loading" ? <p>Loading dashboard...</p> : null}
       {status === "error" ? <p>Unable to load dashboard.</p> : null}
+      {status === "ready" ? (
       <div className="main-cards">
         <div className="card">
           <div className="card-inner">
-            <h3>USERS</h3>
+            <h2>Users</h2>
             <FaUsers className="card_icon" />
           </div>
-          <h1>{users}</h1>
+          <p className="stat">{users}</p>
         </div>
         <div className="card">
           <div className="card-inner">
-            <h3>CARS</h3>
+            <h2>Cars</h2>
             <FaCar className="card_icon" />
           </div>
-          <h1>{cars}</h1>
+          <p className="stat">{cars}</p>
         </div>
         <div className="card">
           <div className="card-inner">
-            <h3>INQUIRIES</h3>
+            <h2>Inquiries</h2>
             <FaQuestionCircle className="card_icon" />
           </div>
-          <h1>{inquiries}</h1>
+          <p className="stat">{inquiries}</p>
         </div>
       </div>
+      ) : null}
     </main>
   );
 };

@@ -62,82 +62,93 @@ const ManageCars = () => {
   };
 
   return (
-    <>
-      <div className="admin-add-car-title">Add Cars For Sale</div>
-      <form
-        className="addsalecarform"
-        name="myform"
-        id="myform"
-        onSubmit={postData}
-      >
-        <label htmlFor="make">Make: </label>
-        <input
-          type="text"
-          name="make"
-          id="make"
-          value={car.make}
-          onChange={handleInputs}
-          placeholder="Enter Car Make"
-        />
-        <br />
-        <label htmlFor="model">Model: </label>
-        <input
-          type="text"
-          name="model"
-          id="model"
-          value={car.model}
-          onChange={handleInputs}
-          placeholder="Enter Car Model"
-        />
-        <br />
-        <label htmlFor="year">Year: </label>
-        <input
-          type="text"
-          name="year"
-          id="year"
-          value={car.year}
-          onChange={handleInputs}
-          placeholder="Manufacturing Year"
-        />
-        <br />
-        <label htmlFor="price">Price: </label>
-        <input
-          type="text"
-          name="price"
-          id="price"
-          value={car.price}
-          onChange={handleInputs}
-          placeholder="Enter Car Price"
-        />
-        <br />
-        <label htmlFor="description">Description: </label>
-        <input
-          type="text"
-          name="description"
-          id="description"
-          value={car.description}
-          onChange={handleInputs}
-          placeholder="Enter Car Description"
-        />
-        <br />
-        <label htmlFor="imageUrl">Image URL: </label>
-        <ImageUpload onUpload={handleImageUpload} />
-        {car.imageUrl && (
-          <div id="image-container">
-            <img
-              src={car.imageUrl}
-              alt="Uploaded Car"
-              style={{ maxWidth: "50%", border: "solid red" }}
+    <div className="form-page">
+      <div className="admin-add-car-title">
+        <h1>Add a vehicle</h1>
+        <p className="muted">Listings appear on the public catalog after you save.</p>
+      </div>
+      <form className="addsalecarform panel" name="myform" id="myform" onSubmit={postData}>
+        <fieldset>
+          <legend>Vehicle details</legend>
+          <label htmlFor="make">
+            Make
+            <input
+              type="text"
+              name="make"
+              id="make"
+              value={car.make}
+              onChange={handleInputs}
+              placeholder="Toyota"
             />
-          </div>
-        )}
-        <br />
-        {error && <p style={{ color: "red" }}>{error}</p>}
+          </label>
+          <label htmlFor="model">
+            Model
+            <input
+              type="text"
+              name="model"
+              id="model"
+              value={car.model}
+              onChange={handleInputs}
+              placeholder="Axio"
+            />
+          </label>
+          <label htmlFor="year">
+            Year
+            <input
+              type="text"
+              name="year"
+              id="year"
+              value={car.year}
+              onChange={handleInputs}
+              placeholder="2020"
+            />
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>Price and description</legend>
+          <label htmlFor="price">
+            Price
+            <input
+              type="text"
+              name="price"
+              id="price"
+              value={car.price}
+              onChange={handleInputs}
+              placeholder="1500000"
+            />
+          </label>
+          <label htmlFor="description">
+            Description
+            <input
+              type="text"
+              name="description"
+              id="description"
+              value={car.description}
+              onChange={handleInputs}
+              placeholder="Short description"
+            />
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>Photo</legend>
+          <label htmlFor="imageInput">
+            Image
+            <ImageUpload onUpload={handleImageUpload} />
+          </label>
+          {car.imageUrl ? (
+            <div id="image-container">
+              <img src={car.imageUrl} alt="Uploaded car" />
+            </div>
+          ) : (
+            <p className="muted">Upload a photo before saving if you want one on the listing.</p>
+          )}
+        </fieldset>
+        {error ? <p className="error">{error}</p> : null}
         <div className="button">
-          <input type="submit" name="submit" value="Add Car" />
+          <input type="submit" name="submit" value="Add Car" className="btn" />
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

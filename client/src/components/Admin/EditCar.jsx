@@ -97,33 +97,41 @@ const EditCar = () => {
   }
 
   return (
-    <form className="addsalecarform" onSubmit={saveCar}>
+    <form className="addsalecarform panel" onSubmit={saveCar}>
       <h1>Edit vehicle</h1>
-      <label htmlFor="make">Make</label>
-      <input id="make" name="make" value={car.make} onChange={handleInputs} />
-      <label htmlFor="model">Model</label>
-      <input id="model" name="model" value={car.model} onChange={handleInputs} />
-      <label htmlFor="year">Year</label>
-      <input id="year" name="year" value={car.year} onChange={handleInputs} />
-      <label htmlFor="price">Price</label>
-      <input id="price" name="price" value={car.price} onChange={handleInputs} />
-      <label htmlFor="description">Description</label>
-      <input
-        id="description"
-        name="description"
-        value={car.description}
-        onChange={handleInputs}
-      />
-      <label htmlFor="imageUrl">Image URL</label>
-      <input
-        id="imageUrl"
-        name="imageUrl"
-        value={car.imageUrl}
-        onChange={handleInputs}
-      />
-      {error ? <p>{error}</p> : null}
-      <button type="submit">Save</button>
-      <Link to="/admin/manage-cars">Cancel</Link>
+      <label htmlFor="make">
+        Make
+        <input id="make" name="make" value={car.make} onChange={handleInputs} />
+      </label>
+      <label htmlFor="model">
+        Model
+        <input id="model" name="model" value={car.model} onChange={handleInputs} />
+      </label>
+      <label htmlFor="year">
+        Year
+        <input id="year" name="year" value={car.year} onChange={handleInputs} />
+      </label>
+      <label htmlFor="price">
+        Price
+        <input id="price" name="price" value={car.price} onChange={handleInputs} />
+      </label>
+      <label htmlFor="description">
+        Description
+        <input id="description" name="description" value={car.description} onChange={handleInputs} />
+      </label>
+      <label htmlFor="imageUrl">
+        Image URL
+        <input id="imageUrl" name="imageUrl" value={car.imageUrl} onChange={handleInputs} />
+      </label>
+      {error ? <p className="error">{error}</p> : null}
+      <div className="form-actions">
+        <button type="submit" className="btn">
+          Save
+        </button>
+        <Link className="btn secondary" to="/admin/manage-cars">
+          Cancel
+        </Link>
+      </div>
     </form>
   );
 };
