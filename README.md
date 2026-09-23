@@ -205,8 +205,7 @@ No live deployment URL is recorded yet.
 
 - Vite 8, Vitest 5, React Router 7, and bcrypt 6 are deferred because each upgrade is a major change. The remaining dependency advisories are on those packages. The bcrypt advisory is in the `tar` package used while installing bcrypt, not in request handling.
 - Vehicle photos still use a Cloudinary unsigned upload preset in the admin upload component.
-- The contact page and inquiry page still need a portfolio pass for personal contact details.
-- Screenshots and a demo link will be added after the interface pass and a verified deployment.
+- Screenshots and a demo link will be added after a verified deployment.
 
 ## Screenshots
 

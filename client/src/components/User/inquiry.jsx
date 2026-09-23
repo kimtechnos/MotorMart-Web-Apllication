@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { FaFacebook, FaTwitter, FaInstagram, FaPhone } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import toast from "react-simple-toasts";
 import "./user.css";
 
@@ -10,10 +9,6 @@ const Inquiry = () => {
   const location = useLocation();
   const { carId, carMake, carModel } = location.state || {};
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    console.log("Received car data:", { carMake, carModel });
-  }, [carMake, carModel]);
 
   const handleChange = (e) => {
     setMessage(e.target.value);
@@ -51,9 +46,17 @@ const Inquiry = () => {
 
   return (
     <div className="inquiry-form-container">
-      <h1>Interested in:</h1>
-      <h2>manufacturer: {carMake}</h2>
-      <h3>CarModel:{carModel}:?</h3>
+      <h1>Interested in</h1>
+      {carId ? (
+        <p>
+          {carMake} {carModel}
+        </p>
+      ) : (
+        <p>
+          Choose a vehicle from the inventory before sending an inquiry.{" "}
+          <Link to="/home">Browse vehicles</Link>
+        </p>
+      )}
       <form className="inquiry-form" onSubmit={handleSubmit}>
         <label>
           Message:
@@ -66,25 +69,10 @@ const Inquiry = () => {
           />
         </label>
         <br />
-        <button type="submit">Submit Inquiry</button>
+        <button type="submit" disabled={!carId}>
+          Submit Inquiry
+        </button>
       </form>
-      <div className="social-media-icons">
-        <a
-          href="https://www.facebook.com/francis.kimani.96343405"
-          target="_blank"
-        >
-          <FaFacebook />
-        </a>
-        <a href="https://twitter.com" target="_blank">
-          <FaTwitter />
-        </a>
-        <a href="https://instagram.com" target="_blank">
-          <FaInstagram />
-        </a>
-        <a href="tel:+254769334187">
-          <FaPhone />
-        </a>
-      </div>
     </div>
   );
 };

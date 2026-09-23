@@ -82,6 +82,9 @@
 
 .nav-toggle {
   display: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
 }
 
 @media screen and (max-width: 45.062em) {

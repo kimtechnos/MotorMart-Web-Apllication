@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import TypingAnimator from "react-typing-animator";
 import "./navbar.css";
 
 const Navbar = () => {
@@ -14,24 +13,19 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const logo = ["Motor", "Mart"];
-
   return (
     <div className="Navbar">
-      <span className="nav-logo">
-        <TypingAnimator
-          textArray={logo}
-          loop
-          textColor="yellow"
-          fontSize="2rem"
-        />
-      </span>
-      <div
+      <Link to="/home" className="nav-logo" onClick={handleLinkClick}>
+        MotorMart
+      </Link>
+      <button
+        type="button"
         className={`nav-toggle ${isOpen ? "open" : ""}`}
         onClick={toggleMenu}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
       >
         <div className="bar"></div>
-      </div>
+      </button>
       <div className={`nav-items ${isOpen ? "open" : ""}`}>
         <Link to="/home" onClick={handleLinkClick}>
           Home

@@ -157,34 +157,12 @@ function Contact() {
                     </div>
                     <div className="dbox w-100 d-flex align-items-start">
                       <div className="icon d-flex align-items-center justify-content-center">
-                        <span className="fa fa-phone"></span>
-                      </div>
-                      <div className="text pl-3">
-                        <p>
-                          <span>Phone:</span>
-                          <a href="tel://254769334187">+254 769 334 187</a>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dbox w-100 d-flex align-items-start">
-                      <div className="icon d-flex align-items-center justify-content-center">
                         <span className="fa fa-paper-plane"></span>
                       </div>
                       <div className="text pl-3">
                         <p>
                           <span>Email:</span>
                           <a href="mailto:motor@mart.com">motor@mart.com</a>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dbox w-100 d-flex align-items-start">
-                      <div className="icon d-flex align-items-center justify-content-center">
-                        <span className="fa fa-globe"></span>
-                      </div>
-                      <div className="text pl-3">
-                        <p>
-                          <span>Website:</span>
-                          <a href="https://motormart.com">motormart.com</a>
                         </p>
                       </div>
                     </div>

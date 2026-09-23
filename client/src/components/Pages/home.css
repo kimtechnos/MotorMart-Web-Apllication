@@ -63,8 +63,13 @@
 }
 
 .homeImage {
+  width: min(960px, calc(100% - 3rem));
   margin: 2rem auto;
-  max-width: 100%;
+}
+
+.homeImage img {
+  display: block;
+  width: 100%;
   height: auto;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
