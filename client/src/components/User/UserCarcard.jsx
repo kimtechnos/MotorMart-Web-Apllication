@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./UserCarcard.css";
 
 const UserCarcard = ({
+  id,
   carImg,
   carMake,
   carModel,
@@ -14,7 +15,7 @@ const UserCarcard = ({
 
   const handleInquiryClick = () => {
     navigate("/user/post-inquiry", {
-      state: { carMake, carModel },
+      state: { carId: id, carMake, carModel },
     });
   };
 

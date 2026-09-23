@@ -33,6 +33,7 @@ const ViewCar = () => {
         {cars.map((car) => (
           <UserCarcard
             key={car.id}
+            id={car.id}
             carImg={car.imageUrl}
             carMake={car.make}
             carModel={car.model}

@@ -8,7 +8,7 @@ import { apiBase } from "../../utils/config";
 
 const Inquiry = () => {
   const location = useLocation();
-  const { carMake, carModel } = location.state || {};
+  const { carId, carMake, carModel } = location.state || {};
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const Inquiry = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ make: carMake, model: carModel, message }),
+        body: JSON.stringify({ carId, message }),
         credentials: "include",
       });
 

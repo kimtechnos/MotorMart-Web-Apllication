@@ -6,7 +6,11 @@ import UserCarcard from "./UserCarcard";
 const InquiryPage = () => {
   const { state } = useLocation();
 
-  return <p>{`${state.carMake} ${state.carModel}`}</p>;
+  return (
+    <p>
+      {state.carId} {state.carMake} {state.carModel}
+    </p>
+  );
 };
 
 describe("UserCarcard", () => {
@@ -18,6 +22,7 @@ describe("UserCarcard", () => {
             path="/user/view-cars"
             element={
               <UserCarcard
+                id="car-1"
                 carImg="/car.png"
                 carMake="Toyota"
                 carModel="Corolla"
@@ -34,6 +39,6 @@ describe("UserCarcard", () => {
 
     fireEvent.click(screen.getByText("Toyota"));
 
-    expect(screen.getByText("Toyota Corolla")).toBeInTheDocument();
+    expect(screen.getByText("car-1 Toyota Corolla")).toBeInTheDocument();
   });
 });
