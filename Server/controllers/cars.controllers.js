@@ -50,14 +50,21 @@ export const updatecar = async (req, res) => {
     }
 
     const { make, model, year, price, description, imageUrl } = req.body;
+    const yearInt = Number.parseInt(year, 10);
+    const priceNumber = Number.parseFloat(price);
+    if (Number.isNaN(yearInt) || Number.isNaN(priceNumber)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Year and price must be numbers" });
+    }
 
     const updatedCar = await prisma.car.update({
       where: { id: id },
       data: {
         make,
         model,
-        year,
-        price,
+        year: yearInt,
+        price: priceNumber,
         description,
         imageUrl,
       },
@@ -65,7 +72,10 @@ export const updatecar = async (req, res) => {
 
     res.json({ success: true, data: updatedCar });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    if (e.code === "P2025") {
+      return res.status(404).json({ success: false, message: "Car not found" });
+    }
+    res.status(500).json({ success: false, message: "Unable to update vehicle" });
   }
 };
 export const getAllcars = async (req, res) => {

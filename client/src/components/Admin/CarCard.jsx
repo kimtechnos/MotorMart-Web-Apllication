@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 import "./admin.css";
 
@@ -21,6 +21,7 @@ const CarCard = ({
         <p className="year">{carYear}</p>
         <p className="description">{carDescription}</p>
         <p className="price">{carPrice} Ksh</p>
+        <Link to={`/admin/edit-car/${id}`}>Edit</Link>
         <button className="delete-btn" onClick={() => onDelete(id)}>
           Delete
         </button>
