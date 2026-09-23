@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Common/Navbar";
 import Home from "./components/Pages/Home";
+import CarDetail from "./components/Pages/CarDetail";
 import Contact from "./components/Pages/Contact";
 import About from "./components/Pages/About";
 import Login from "./components/Auth/Login";
@@ -66,6 +67,7 @@ function App() {
         {/* Public routes */}
         <Route element={<MainLayout />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/cars/:id" element={<CarDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />

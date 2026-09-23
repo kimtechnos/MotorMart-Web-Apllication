@@ -113,7 +113,7 @@ export const getSingleCar = async (req, res) => {
 
     res.status(200).json(car);
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load vehicle" });
   }
 };
 
