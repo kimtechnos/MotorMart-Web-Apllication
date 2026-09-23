@@ -75,6 +75,11 @@ const AdminNavBar = () => {
             <BsListCheck className="icon" /> Manage Inquiries
           </Link>
         </li>
+        <li className="sidebar-list-item">
+          <Link to="/admin/contact-messages">
+            <BsListCheck className="icon" /> Contact messages
+          </Link>
+        </li>
         <li className="user-sidebar-list-item">
           <button onClick={handleLogout} className="user-logout-button">
             <BsBoxArrowRight className="user-icon" /> Logout

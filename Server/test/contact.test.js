@@ -4,6 +4,7 @@ import {
   getPrisma,
   post,
   resetDatabase,
+  send,
   startTestApp,
   stopTestApp,
 } from "./harness.js";
@@ -46,5 +47,35 @@ describe("contact messages", { concurrency: false }, () => {
 
     assert.equal(response.status, 400);
     assert.equal(payload.message, "Name, email, and message are required");
+  });
+
+  it("lets an admin read contact messages and hides them from guests", async () => {
+    await post("/api/contact", {
+      name: "Amina Otieno",
+      email: "amina@example.com",
+      message: "Saturday viewing",
+    });
+    const guest = await send("GET", "/api/contact");
+    assert.equal(guest.response.status, 401);
+
+    await post("/api/users/register", {
+      fullName: "Contact Admin",
+      email: "contact.admin@example.com",
+      phoneNumber: "0718000001",
+      password: "secret12",
+    });
+    await getPrisma().user.update({
+      where: { email: "contact.admin@example.com" },
+      data: { role: "admin" },
+    });
+    const login = await post("/api/auth/login", {
+      email: "contact.admin@example.com",
+      password: "secret12",
+    });
+    const adminView = await send("GET", "/api/contact", login.cookie);
+
+    assert.equal(adminView.response.status, 200);
+    assert.equal(adminView.payload.data.length, 1);
+    assert.equal(adminView.payload.data[0].message, "Saturday viewing");
   });
 });

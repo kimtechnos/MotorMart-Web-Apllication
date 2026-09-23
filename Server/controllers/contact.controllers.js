@@ -37,3 +37,14 @@ export const createContactMessage = async (req, res) => {
     res.status(500).json({ success: false, message: "Unable to send message" });
   }
 };
+
+export const getContactMessages = async (req, res) => {
+  try {
+    const messages = await prisma.contactMessage.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    res.status(200).json({ success: true, data: messages });
+  } catch (e) {
+    res.status(500).json({ success: false, message: "Unable to load messages" });
+  }
+};
