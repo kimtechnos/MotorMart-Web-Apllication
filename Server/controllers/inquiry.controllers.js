@@ -32,6 +32,28 @@ export const createInquiry = async (req, res) => {
     res.status(500).json({ success: false, message: "Unable to submit inquiry" });
   }
 };
+export const getMyInquiries = async (req, res) => {
+  try {
+    const inquiries = await prisma.inquiry.findMany({
+      where: { userId: req.user.id },
+      include: {
+        car: {
+          select: {
+            id: true,
+            make: true,
+            model: true,
+            year: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ success: true, data: inquiries });
+  } catch (e) {
+    res.status(500).json({ success: false, message: "Unable to load inquiries" });
+  }
+};
+
 export const getAllInquiries = async (req, res) => {
   try {
     const inquiries = await prisma.inquiry.findMany({

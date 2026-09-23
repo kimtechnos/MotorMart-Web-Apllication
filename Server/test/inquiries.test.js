@@ -4,6 +4,7 @@ import {
   getPrisma,
   post,
   resetDatabase,
+  send,
   startTestApp,
   stopTestApp,
 } from "./harness.js";
@@ -88,5 +89,40 @@ describe("inquiries", { concurrency: false }, () => {
 
     assert.equal(response.status, 404);
     assert.equal(payload.message, "Car not found");
+  });
+
+  it("returns only the signed-in user's inquiries", async () => {
+    const owner = await createUser("owner-mine", "0715000004");
+    const first = await createUser("first", "0715000005");
+    const second = await createUser("second", "0715000006");
+    const car = await getPrisma().car.create({
+      data: {
+        make: "Nissan",
+        model: "Note",
+        year: 2019,
+        price: 850000,
+        description: "compact",
+        imageUrl: "http://example.com/note.png",
+        ownerId: owner.user.id,
+      },
+    });
+
+    await post(
+      "/api/inquiries",
+      { carId: car.id, message: "First buyer question" },
+      first.cookie,
+    );
+    await post(
+      "/api/inquiries",
+      { carId: car.id, message: "Second buyer question" },
+      second.cookie,
+    );
+
+    const { response, payload } = await send("GET", "/api/inquiries/mine", first.cookie);
+
+    assert.equal(response.status, 200);
+    assert.equal(payload.data.length, 1);
+    assert.equal(payload.data[0].message, "First buyer question");
+    assert.equal(payload.data[0].car.model, "Note");
   });
 });
