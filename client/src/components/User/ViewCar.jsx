@@ -30,7 +30,7 @@ const ViewCar = () => {
 
   return (
     <div className="section-user-cars">
-      <h1>Drive in Style: Our Showroom Highlights</h1>
+      <h1>Vehicles</h1>
       {status === "loading" ? <p>Loading vehicles...</p> : null}
       {status === "error" ? <p>Unable to load vehicles.</p> : null}
       {status === "ready" && cars.length === 0 ? <p>No vehicles yet.</p> : null}
