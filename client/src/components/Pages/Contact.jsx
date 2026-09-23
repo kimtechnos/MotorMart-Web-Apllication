@@ -55,124 +55,76 @@ function Contact() {
   };
 
   return (
-    <section className="contact-section">
-      <div className="container">
-        <ToastContainer position="top-center" />
-        <div className="row justify-content-center">
-          <div className="col-md-10">
-            <div className="wrapper">
-              <div className="row no-gutters">
-                <div className="col-md-6">
-                  <div className="contact-wrap w-100 p-lg-5 p-4">
-                    <h3 className="mb-4">Send Us a Message</h3>
-                    <form
-                      id="contactForm"
-                      className="contactForm"
-                      onSubmit={handleSubmit}
-                    >
-                      <div className="row">
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="name"
-                              placeholder="Name"
-                              onChange={handleInputChange}
-                              value={name}
-                              aria-label="Name"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <input
-                              type="email"
-                              className="form-control"
-                              name="email"
-                              placeholder="Email"
-                              onChange={handleInputChange}
-                              value={email}
-                              aria-label="Email"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <input
-                              type="text"
-                              className="form-control"
-                              name="subject"
-                              placeholder="Subject"
-                              onChange={handleInputChange}
-                              value={subject}
-                              aria-label="Subject"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <textarea
-                              className="form-control"
-                              name="message"
-                              placeholder="Message"
-                              cols="30"
-                              onChange={handleInputChange}
-                              value={message}
-                              aria-label="Message"
-                            ></textarea>
-                          </div>
-                        </div>
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <input
-                              type="submit"
-                              value="Send Message"
-                              className="btn btn-primary"
-                              aria-label="Send Message"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                    {notice ? <p role="status">{notice}</p> : null}
-                  </div>
-                </div>
-
-                <div className="col-md-6 d-flex align-items-stretch">
-                  <div className="info-wrap w-100 p-lg-5 p-4 img">
-                    <h3>Contact Us</h3>
-                    <p className="mb-4">
-                      We are open for any suggestions or just to have a chat.
-                    </p>
-                    <div className="dbox w-100 d-flex align-items-start">
-                      <div className="icon d-flex align-items-center justify-content-center">
-                        <span className="fa fa-map-marker"></span>
-                      </div>
-                      <div className="text pl-3">
-                        <p>
-                          <span>Address:</span> 198 Kenyatta Avenue, Nairobi
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dbox w-100 d-flex align-items-start">
-                      <div className="icon d-flex align-items-center justify-content-center">
-                        <span className="fa fa-paper-plane"></span>
-                      </div>
-                      <div className="text pl-3">
-                        <p>
-                          <span>Email:</span>
-                          <a href="mailto:motor@mart.com">motor@mart.com</a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <section className="contact-page wrap">
+      <ToastContainer position="top-center" />
+      <div className="contact-copy">
+        <p className="badge">Contact</p>
+        <h1>Send a message about MotorMart.</h1>
+        <p className="lede">
+          Use this form for questions about the marketplace. To ask about a
+          specific car, open that listing and send an inquiry.
+        </p>
+        <p>
+          <span>Email</span>
+          <a href="mailto:motor@mart.com">motor@mart.com</a>
+        </p>
+        <p>
+          <span>Location</span>
+          Nairobi, Kenya
+        </p>
       </div>
+      <form id="contactForm" className="contact-form panel" onSubmit={handleSubmit}>
+        <h2>Send us a message</h2>
+        <label htmlFor="contact-name">
+          Name
+          <input
+            id="contact-name"
+            type="text"
+            name="name"
+            placeholder="Your name"
+            onChange={handleInputChange}
+            value={name}
+            aria-label="Name"
+          />
+        </label>
+        <label htmlFor="contact-email">
+          Email
+          <input
+            id="contact-email"
+            type="email"
+            name="email"
+            placeholder="you@example.com"
+            onChange={handleInputChange}
+            value={email}
+            aria-label="Email"
+          />
+        </label>
+        <label htmlFor="contact-subject">
+          Subject
+          <input
+            id="contact-subject"
+            type="text"
+            name="subject"
+            placeholder="Optional subject"
+            onChange={handleInputChange}
+            value={subject}
+            aria-label="Subject"
+          />
+        </label>
+        <label htmlFor="contact-message">
+          Message
+          <textarea
+            id="contact-message"
+            name="message"
+            placeholder="How can we help?"
+            onChange={handleInputChange}
+            value={message}
+            aria-label="Message"
+          />
+        </label>
+        <input type="submit" value="Send Message" className="btn" aria-label="Send Message" />
+        {notice ? <p role="status">{notice}</p> : null}
+      </form>
     </section>
   );
 }
