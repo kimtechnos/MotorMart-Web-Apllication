@@ -7,6 +7,8 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Common/Navbar";
+import Footer from "./components/Common/Footer";
+import NotFound from "./components/Pages/NotFound";
 import Home from "./components/Pages/Home";
 import CarDetail from "./components/Pages/CarDetail";
 import Contact from "./components/Pages/Contact";
@@ -54,10 +56,13 @@ const MainLayout = () => {
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isUserRoute = location.pathname.startsWith("/user");
   return (
-    <>
+    <div className="site">
       {!isAdminRoute && !isUserRoute && <Navbar />}
-      <Outlet />
-    </>
+      <div className="site-main">
+        <Outlet />
+      </div>
+      {!isAdminRoute && !isUserRoute && <Footer />}
+    </div>
   );
 };
 
@@ -73,6 +78,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         {/* Unauthorized route */}
