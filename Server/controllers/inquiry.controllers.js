@@ -5,13 +5,14 @@ const prisma = new PrismaClient();
 export const createInquiry = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { make, model, message } = req.body;
+    const { carId, message } = req.body;
 
-    const car = await prisma.car.findFirst({
-      where: {
-        make: make,
-        model: model,
-      },
+    if (!carId) {
+      return res.status(400).json({ success: false, message: "Car is required" });
+    }
+
+    const car = await prisma.car.findUnique({
+      where: { id: carId },
     });
 
     if (!car) {
@@ -28,9 +29,31 @@ export const createInquiry = async (req, res) => {
 
     res.status(201).json({ success: true, data: inquiry });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to submit inquiry" });
   }
 };
+export const getMyInquiries = async (req, res) => {
+  try {
+    const inquiries = await prisma.inquiry.findMany({
+      where: { userId: req.user.id },
+      include: {
+        car: {
+          select: {
+            id: true,
+            make: true,
+            model: true,
+            year: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ success: true, data: inquiries });
+  } catch (e) {
+    res.status(500).json({ success: false, message: "Unable to load inquiries" });
+  }
+};
+
 export const getAllInquiries = async (req, res) => {
   try {
     const inquiries = await prisma.inquiry.findMany({
@@ -52,6 +75,6 @@ export const getAllInquiries = async (req, res) => {
 
     res.status(200).json({ success: true, data: inquiries });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load inquiries" });
   }
 };

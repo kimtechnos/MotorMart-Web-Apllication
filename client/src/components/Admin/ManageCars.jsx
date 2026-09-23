@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
@@ -9,6 +9,7 @@ import CarCard from "./CarCard";
 
 const ManageCars = () => {
   const [cars, setCars] = useState([]);
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -16,10 +17,11 @@ const ManageCars = () => {
         const carsResponse = await axios.get(`${apiBase}/api/cars`, {
           withCredentials: true,
         });
-        setCars(carsResponse.data);
-      } catch (error) {
-        console.error("Error fetching data", error);
-        toast("Failed to fetch data", { theme: "failure" });
+        setCars(Array.isArray(carsResponse.data) ? carsResponse.data : []);
+        setStatus("ready");
+      } catch {
+        setStatus("error");
+        toast("Unable to load vehicles", { theme: "failure" });
       }
     };
 
@@ -41,7 +43,10 @@ const ManageCars = () => {
 
   return (
     <div className="section-admin-cars">
-      <h1> Oversee and Control Inventory</h1>
+      <h1>Inventory</h1>
+      {status === "loading" ? <p>Loading vehicles...</p> : null}
+      {status === "error" ? <p>Unable to load vehicles.</p> : null}
+      {status === "ready" && cars.length === 0 ? <p>No vehicles yet.</p> : null}
       <div className="cars-list">
         {cars.map((car) => (
           <CarCard

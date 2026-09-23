@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import { config } from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -6,13 +6,15 @@ import usersRouter from "./routes/users.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import carsRouter from "./routes/cars.routes.js";
 import inquiryRouter from "./routes/inquiry.routes.js";
+import contactRouter from "./routes/contact.routes.js";
 
 config();
-const app = express();
+export const app = express();
+const frontendOrigin = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: frontendOrigin,
     methods: ["POST", "GET", "PATCH", "DELETE"],
     credentials: true,
   }),
@@ -24,6 +26,11 @@ app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/cars", carsRouter);
 app.use("/api/inquiries", inquiryRouter);
-app.listen(3000, () => {
-  console.log("sever is running on port 3000...");
-});
+app.use("/api/contact", contactRouter);
+
+if (process.env.NODE_ENV !== "test") {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log("sever is running on port " + port + "...");
+  });
+}

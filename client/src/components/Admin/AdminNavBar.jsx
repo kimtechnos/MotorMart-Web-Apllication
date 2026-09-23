@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiBase } from "../../utils/config";
 import {
@@ -8,13 +7,15 @@ import {
   BsListCheck,
   BsBoxArrowRight,
 } from "react-icons/bs";
+import useUserStore from "../../store/useUserstore";
 import "./admin.css";
 
 const AdminNavBar = () => {
   const navigate = useNavigate();
-  const storedData = JSON.parse(localStorage.getItem("motarmart-user"));
-  const user = storedData?.state?.user;
-  console.log("Retrieved user from local storage:", user);
+  const user = useUserStore((state) => state.user);
+  const clearUserInformation = useUserStore(
+    (state) => state.clearUserInformation,
+  );
   const handleLogout = async () => {
     try {
       const response = await fetch(`${apiBase}/api/auth/logout`, {
@@ -24,8 +25,7 @@ const AdminNavBar = () => {
       const data = await response.json();
 
       if (data.success) {
-        localStorage.removeItem("authToken");
-
+        clearUserInformation();
         navigate("/");
       } else {
         console.error("Logout failed:", data.message);
@@ -72,6 +72,11 @@ const AdminNavBar = () => {
         <li className="sidebar-list-item">
           <Link to="/admin/manage-inquiries">
             <BsListCheck className="icon" /> Manage Inquiries
+          </Link>
+        </li>
+        <li className="sidebar-list-item">
+          <Link to="/admin/contact-messages">
+            <BsListCheck className="icon" /> Contact messages
           </Link>
         </li>
         <li className="user-sidebar-list-item">

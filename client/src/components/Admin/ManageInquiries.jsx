@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
@@ -9,16 +9,18 @@ import { apiBase } from "../../utils/config";
 
 const ManageInquiries = () => {
   const [inquiries, setInquiries] = useState([]);
+  const [status, setStatus] = useState("loading");
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
         const response = await axios.get(`${apiBase}/api/inquiries`, {
           withCredentials: true,
         });
-        setInquiries(response.data.data);
-      } catch (error) {
-        console.log("erroer fetching the data ", error);
-        toast("failed to fetch data", { theme: "failure" });
+        setInquiries(Array.isArray(response.data.data) ? response.data.data : []);
+        setStatus("ready");
+      } catch {
+        setStatus("error");
+        toast("Unable to load inquiries", { theme: "failure" });
       }
     };
     fetchInquiries();
@@ -26,6 +28,11 @@ const ManageInquiries = () => {
   return (
     <div className="section-inquiries">
       <h1 className="inquiries-title">User and Car Inquiries</h1>
+      {status === "loading" ? <p>Loading inquiries...</p> : null}
+      {status === "error" ? <p>Unable to load inquiries.</p> : null}
+      {status === "ready" && inquiries.length === 0 ? (
+        <p>No inquiries yet.</p>
+      ) : null}
       <div className="inquiries">
         <div className="inquiries-list">
           {inquiries.map((inquiry) => (

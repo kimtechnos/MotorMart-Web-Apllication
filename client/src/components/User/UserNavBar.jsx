@@ -1,20 +1,20 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   BsFillGridFill,
   BsFillCarFrontFill,
   BsFillPersonFill,
-  BsChatDotsFill,
   BsBoxArrowRight,
 } from "react-icons/bs";
 import { apiBase } from "../../utils/config";
+import useUserStore from "../../store/useUserstore";
 import "./user.css";
 
 const UserNavBar = () => {
   const navigate = useNavigate();
-  const storedData = JSON.parse(localStorage.getItem("motarmart-user"));
-  const user = storedData?.state?.user;
-  console.log("Retrieved user from local storage:", user);
+  const user = useUserStore((state) => state.user);
+  const clearUserInformation = useUserStore(
+    (state) => state.clearUserInformation,
+  );
 
   const handleLogout = async () => {
     try {
@@ -25,9 +25,7 @@ const UserNavBar = () => {
       const data = await response.json();
 
       if (data.success) {
-        localStorage.removeItem("motarmart-user");
-        localStorage.removeItem("authToken");
-
+        clearUserInformation();
         navigate("/");
       } else {
         console.error("Logout failed:", data.message);

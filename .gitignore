@@ -1,0 +1,12 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies and build output
+node_modules/
+dist/
+dist-ssr/
+
+# Submission archives must never be committed
+*.zip

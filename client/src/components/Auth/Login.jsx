@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
 import "react-simple-toasts/dist/theme/success.css";
 import "react-simple-toasts/dist/theme/failure.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiBase } from "../../utils/config";
 import useUserStore from "../../store/useUserstore";
 import "./register-log.css";
@@ -44,9 +44,6 @@ const Login = () => {
 
       if (response.ok && data.success === true) {
         toast(data.message || "Login success", { theme: "success" });
-        //store the token in local storage
-        window.localStorage.setItem("authToken", data.token);
-        window.localStorage.setItem("userRole", data.data.role);
         changeUserInformation(data.data);
         if (data.data.role === "admin") {
           navigate("/admin/dashboard");
@@ -76,9 +73,11 @@ const Login = () => {
   });
 
   return (
-    <div className="form">
-      <div className="form-body">
+    <div className="auth-screen">
+      <div className="form">
+        <p className="badge">MotorMart</p>
         <h1>Login</h1>
+        <p className="muted">Use the email and password for your account.</p>
         <form onSubmit={formik.handleSubmit}>
           <div className="email">
             <label className="form__label" htmlFor="email">
@@ -120,6 +119,9 @@ const Login = () => {
             {submitting ? "Logging in..." : "Login"}
           </button>
         </form>
+        <p className="muted">
+          New here? <Link to="/">Create an account</Link>
+        </p>
       </div>
     </div>
   );

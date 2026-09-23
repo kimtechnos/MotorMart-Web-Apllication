@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./assets/global.css";
 import {
   BrowserRouter,
@@ -8,7 +7,10 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Common/Navbar";
+import Footer from "./components/Common/Footer";
+import NotFound from "./components/Pages/NotFound";
 import Home from "./components/Pages/Home";
+import CarDetail from "./components/Pages/CarDetail";
 import Contact from "./components/Pages/Contact";
 import About from "./components/Pages/About";
 import Login from "./components/Auth/Login";
@@ -19,7 +21,9 @@ import AdminDashboard from "./components/Admin/AdminDashboard";
 import ManageUsers from "./components/Admin/ManageUsers";
 import ManageCars from "./components/Admin/ManageCars";
 import AddCars from "./components/Admin/AddCars";
+import EditCar from "./components/Admin/EditCar";
 import ManageInquiries from "./components/Admin/ManageInquiries";
+import ManageContact from "./components/Admin/ManageContact";
 import UserDashboard from "./components/User/UserDashboard";
 import ViewCar from "./components/User/ViewCar";
 import PostInquiry from "./components/User/inquiry";
@@ -52,10 +56,13 @@ const MainLayout = () => {
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isUserRoute = location.pathname.startsWith("/user");
   return (
-    <>
+    <div className="site">
       {!isAdminRoute && !isUserRoute && <Navbar />}
-      <Outlet />
-    </>
+      <div className="site-main">
+        <Outlet />
+      </div>
+      {!isAdminRoute && !isUserRoute && <Footer />}
+    </div>
   );
 };
 
@@ -66,10 +73,12 @@ function App() {
         {/* Public routes */}
         <Route element={<MainLayout />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/cars/:id" element={<CarDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         {/* Unauthorized route */}
@@ -82,7 +91,9 @@ function App() {
             <Route path="manage-users" element={<ManageUsers />} />
             <Route path="manage-cars" element={<ManageCars />} />
             <Route path="add-cars" element={<AddCars />} />
+            <Route path="edit-car/:id" element={<EditCar />} />
             <Route path="manage-inquiries" element={<ManageInquiries />} />
+            <Route path="contact-messages" element={<ManageContact />} />
           </Route>
         </Route>
 

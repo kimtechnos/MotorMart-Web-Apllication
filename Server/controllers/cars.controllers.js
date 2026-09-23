@@ -17,9 +17,6 @@ export const createCar = async (req, res) => {
         .json({ success: false, message: "invalid year provided" });
     }
 
-    console.log("Received request to create car with data:", req.body);
-
-    // Create new car
     await prisma.car.create({
       data: {
         make: make,
@@ -50,14 +47,21 @@ export const updatecar = async (req, res) => {
     }
 
     const { make, model, year, price, description, imageUrl } = req.body;
+    const yearInt = Number.parseInt(year, 10);
+    const priceNumber = Number.parseFloat(price);
+    if (Number.isNaN(yearInt) || Number.isNaN(priceNumber)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Year and price must be numbers" });
+    }
 
     const updatedCar = await prisma.car.update({
       where: { id: id },
       data: {
         make,
         model,
-        year,
-        price,
+        year: yearInt,
+        price: priceNumber,
         description,
         imageUrl,
       },
@@ -65,15 +69,41 @@ export const updatecar = async (req, res) => {
 
     res.json({ success: true, data: updatedCar });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    if (e.code === "P2025") {
+      return res.status(404).json({ success: false, message: "Car not found" });
+    }
+    res.status(500).json({ success: false, message: "Unable to update vehicle" });
   }
 };
 export const getAllcars = async (req, res) => {
   try {
-    const users = await prisma.car.findMany();
-    res.status(200).json(users);
+    const where = {};
+    if (req.query.make) {
+      where.make = { contains: String(req.query.make), mode: "insensitive" };
+    }
+    if (req.query.model) {
+      where.model = { contains: String(req.query.model), mode: "insensitive" };
+    }
+    if (req.query.year) {
+      const year = Number.parseInt(req.query.year, 10);
+      if (!Number.isNaN(year)) {
+        where.year = year;
+      }
+    }
+    if (req.query.maxPrice) {
+      const maxPrice = Number.parseFloat(req.query.maxPrice);
+      if (!Number.isNaN(maxPrice)) {
+        where.price = { lte: maxPrice };
+      }
+    }
+
+    const cars = await prisma.car.findMany({
+      where,
+      orderBy: [{ make: "asc" }, { model: "asc" }],
+    });
+    res.status(200).json(cars);
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load vehicles" });
   }
 };
 
@@ -90,7 +120,7 @@ export const getSingleCar = async (req, res) => {
 
     res.status(200).json(car);
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    res.status(500).json({ success: false, message: "Unable to load vehicle" });
   }
 };
 
@@ -111,6 +141,9 @@ export const deletecar = async (req, res) => {
 
     res.status(200).json({ success: true, data: deletedCar });
   } catch (e) {
-    res.status(500).json({ success: false, message: e.message });
+    if (e.code === "P2025") {
+      return res.status(404).json({ success: false, message: "Car not found" });
+    }
+    res.status(500).json({ success: false, message: "Unable to delete vehicle" });
   }
 };

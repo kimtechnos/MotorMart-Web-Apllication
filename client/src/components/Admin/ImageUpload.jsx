@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 const ImageUpload = ({ onUpload }) => {
   const [loading, setLoading] = useState(false);
@@ -8,8 +9,11 @@ const ImageUpload = ({ onUpload }) => {
     const formData = new FormData();
     formData.append("file", image);
 
-    const uploadPreset = "ml_kimtech";
-    const cloudName = "djbuzeizs";
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    if (!uploadPreset || !cloudName) {
+      throw new Error("Image upload is not configured");
+    }
     formData.append("upload_preset", uploadPreset);
 
     try {
@@ -60,6 +64,10 @@ const ImageUpload = ({ onUpload }) => {
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
+};
+
+ImageUpload.propTypes = {
+  onUpload: PropTypes.func,
 };
 
 export default ImageUpload;

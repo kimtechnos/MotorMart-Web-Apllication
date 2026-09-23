@@ -1,152 +1,118 @@
 .Navbar {
-  min-height: 60px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--color-primary);
-  padding: 0 1rem;
-  position: fixed;
+  position: sticky;
   top: 0;
-  width: 100%;
-  z-index: 50;
+  z-index: 20;
+  background: rgba(246, 243, 238, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-inner {
+  width: min(var(--max), calc(100% - 3.2rem));
+  margin: 0 auto;
+  min-height: 7.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
 }
 
 .nav-logo {
-  font-family: Arial, sans-serif;
-  font-size: 25px;
-  color: var(--color-white);
-  padding: 10px;
-  display: inline-block;
-  margin: 0;
-  font-weight: bold;
-}
-
-.nav-signup {
-  padding: 10px 20px;
-  background-color: var(--color-right-green);
-  border-radius: 5px;
-  text-transform: uppercase;
-  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--ink);
   text-decoration: none;
-  margin-left: 1rem;
+  font-family: var(--display);
+  font-size: 2.2rem;
 }
 
-.nav-signup:hover {
-  background-color: var(--color-black);
-}
-
-.nav-login {
-  padding: 8px 20px;
-  background-color: var(--color-red);
-  border-radius: 5px;
-  color: var(--color-white);
-  text-decoration: none;
-}
-
-.nav-login:hover {
-  background-color: var(--color-black);
+.nav-mark {
+  width: 3.2rem;
+  height: 3.2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.8rem;
+  background: var(--brand);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 
 .nav-items {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
 }
 
-.nav-items a {
-  color: var(--color-white);
-  font-size: 1.5rem;
-  margin: 0 1.4rem;
-  text-transform: capitalize;
-  font-weight: 600;
+.nav-items a,
+.nav-logout {
+  color: var(--ink);
   text-decoration: none;
+  font-weight: 650;
+  min-height: 4.4rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
 }
 
-.nav-items a:hover {
-  color: var(--color-accent);
+.nav-items a:hover,
+.nav-logout:hover {
+  background: #efe8de;
 }
 
-@media screen and (max-width: 53.937em) {
-  .nav-items a {
-    margin: 0.5rem;
-  }
-
-  .nav-signup {
-    padding: 3px 10px;
-  }
-
-  .nav-login {
-    padding: 3px 10px;
-  }
+.nav-signup,
+.nav-account {
+  background: var(--brand) !important;
+  color: #fff !important;
 }
 
 .nav-toggle {
   display: none;
+  width: 4.4rem;
+  height: 4.4rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  cursor: pointer;
 }
 
-@media screen and (max-width: 45.062em) {
-  .Navbar .nav-items {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    top: 45px;
-    width: 100%;
-    height: auto;
-    background-color: var(--color-primary);
-    transform: translateX(-100%);
-    transition: all 0.45s;
-    z-index: 1;
-  }
+.nav-toggle .bar {
+  display: block;
+  width: 1.8rem;
+  height: 2px;
+  margin: 0.4rem auto;
+  background: var(--ink);
+}
 
-  .Navbar .nav-items.open {
-    transform: translateX(0);
-  }
-
+@media (max-width: 800px) {
   .nav-toggle {
-    display: flex;
-    width: 30px;
-    height: 30px;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-right: 1rem;
+    display: inline-block;
   }
 
-  .nav-toggle .bar {
-    width: 20px;
-    height: 2px;
-    background: var(--color-white);
-    transition: all 0.45s ease-in-out;
-  }
-
-  .nav-toggle .bar::before,
-  .nav-toggle .bar::after {
-    content: "";
+  .nav-items {
+    display: none;
     position: absolute;
-    width: 20px;
-    height: 2px;
-    background: var(--color-white);
-    transition: all 0.45s ease-in-out;
+    left: 0;
+    right: 0;
+    top: 7.2rem;
+    padding: 1.2rem 1.6rem 2rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .nav-toggle .bar::before {
-    transform: translateY(-6px);
+  .nav-items.open {
+    display: flex;
   }
 
-  .nav-toggle .bar::after {
-    transform: translateY(6px);
-  }
-
-  .nav-toggle.open .bar {
-    transform: rotate(45deg);
-  }
-
-  .nav-toggle.open .bar::before {
-    transform: rotate(90deg);
-  }
-
-  .nav-toggle.open .bar::after {
-    transform: rotate(90deg);
+  .nav-items a,
+  .nav-logout {
+    width: 100%;
+    justify-content: flex-start;
   }
 }
