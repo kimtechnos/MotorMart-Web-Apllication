@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ImageUpload from "./ImageUpload";
 import { apiBase } from "../../utils/config";
 import toast from "react-simple-toasts";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
@@ -40,7 +40,6 @@ const ViewCar = () => {
             carYear={car.year}
             carPrice={car.price}
             carDescription={car.description}
-            id={car.id}
           />
         ))}
       </div>

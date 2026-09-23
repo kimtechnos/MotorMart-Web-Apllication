@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaPhone } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import toast from "react-simple-toasts";
@@ -51,7 +51,7 @@ const Inquiry = () => {
 
   return (
     <div className="inquiry-form-container">
-      <h1>Intrested with:</h1>
+      <h1>Interested in:</h1>
       <h2>manufacturer: {carMake}</h2>
       <h3>CarModel:{carModel}:?</h3>
       <form className="inquiry-form" onSubmit={handleSubmit}>

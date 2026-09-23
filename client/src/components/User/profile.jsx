@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import toast from "react-simple-toasts";
 import "react-simple-toasts/dist/theme/dark.css";
 import "react-simple-toasts/dist/theme/success.css";
@@ -7,7 +7,7 @@ import { apiBase } from "../../utils/config";
 import useUserStore from "../../store/useUserstore";
 import "./user.css";
 
-const profile = () => {
+const Profile = () => {
   const user = useUserStore((state) => state.user);
   const [userData, setUserData] = useState(user || {});
   const [password, setpassword] = useState("");
@@ -113,4 +113,4 @@ const profile = () => {
   );
 };
 
-export default profile;
+export default Profile;

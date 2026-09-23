@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import "./UserCarcard.css";
 
@@ -33,6 +33,16 @@ const UserCarcard = ({
       </div>
     </div>
   );
+};
+
+UserCarcard.propTypes = {
+  id: PropTypes.string,
+  carImg: PropTypes.string,
+  carMake: PropTypes.string,
+  carModel: PropTypes.string,
+  carYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  carPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  carDescription: PropTypes.string,
 };
 
 export default UserCarcard;

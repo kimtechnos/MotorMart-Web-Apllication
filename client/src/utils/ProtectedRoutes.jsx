@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Navigate, Outlet } from "react-router-dom";
 import useUserStore from "../store/useUserstore";
 import { apiBase } from "./config";
@@ -56,6 +57,10 @@ const ProtectedRoutes = ({ allowedRoles }) => {
   }
 
   return <Outlet />;
+};
+
+ProtectedRoutes.propTypes = {
+  allowedRoles: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default ProtectedRoutes;

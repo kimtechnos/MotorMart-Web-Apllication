@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./register-log.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";

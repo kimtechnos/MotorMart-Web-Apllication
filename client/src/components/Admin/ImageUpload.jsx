@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 const ImageUpload = ({ onUpload }) => {
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,10 @@ const ImageUpload = ({ onUpload }) => {
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
+};
+
+ImageUpload.propTypes = {
+  onUpload: PropTypes.func,
 };
 
 export default ImageUpload;

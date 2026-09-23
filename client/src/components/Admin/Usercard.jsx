@@ -1,4 +1,4 @@
-import React from "react";
+import PropTypes from "prop-types";
 import "./admin.css";
 
 const Usercard = ({ id, fullName, email, phoneNumber, onDelete }) => {
@@ -14,6 +14,14 @@ const Usercard = ({ id, fullName, email, phoneNumber, onDelete }) => {
       </td>
     </tr>
   );
+};
+
+Usercard.propTypes = {
+  id: PropTypes.string,
+  fullName: PropTypes.string,
+  email: PropTypes.string,
+  phoneNumber: PropTypes.string,
+  onDelete: PropTypes.func,
 };
 
 export default Usercard;

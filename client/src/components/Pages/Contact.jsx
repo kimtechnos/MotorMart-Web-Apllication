@@ -143,7 +143,7 @@ function Contact() {
                   <div className="info-wrap w-100 p-lg-5 p-4 img">
                     <h3>Contact Us</h3>
                     <p className="mb-4">
-                      We're open for any suggestions or just to have a chat.
+                      We are open for any suggestions or just to have a chat.
                     </p>
                     <div className="dbox w-100 d-flex align-items-start">
                       <div className="icon d-flex align-items-center justify-content-center">

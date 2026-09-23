@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import "./admin.css";
@@ -28,6 +29,16 @@ const CarCard = ({
       </div>
     </div>
   );
+};
+
+CarCard.propTypes = {
+  carImg: PropTypes.string,
+  carTitle: PropTypes.string,
+  carYear: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  carPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  carDescription: PropTypes.string,
+  id: PropTypes.string,
+  onDelete: PropTypes.func,
 };
 
 export default CarCard;
