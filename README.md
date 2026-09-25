@@ -2,7 +2,9 @@
 
 MotorMart is a full-stack vehicle marketplace. Visitors can search the inventory and open a vehicle. Signed-in customers send inquiries about a specific car and see only their own messages. Admins add, edit, and remove listings, manage accounts, and read inquiries and contact messages.
 
-There is no public demo URL yet. This branch has been run locally against Postgres.
+Public site: [https://motormart-web-apllication-1.onrender.com/home](https://motormart-web-apllication-1.onrender.com/home)
+
+The API is at `https://motormart-web-apllication.onrender.com`. This branch has also been run locally against Postgres.
 
 ## Features
 
@@ -201,14 +203,17 @@ Render settings for the API:
 
 Set `FRONTEND_ORIGIN` to the public website origin, including `https://`. Set the website's `VITE_API_URL_BASE` to the Render service origin. Do not commit real values.
 
-No live deployment URL is recorded yet.
+Live URLs:
+
+- Website: [https://motormart-web-apllication-1.onrender.com/home](https://motormart-web-apllication-1.onrender.com/home)
+- API: `https://motormart-web-apllication.onrender.com`
 
 ## Known limitations
 
 - Vite 8, Vitest 5, React Router 7, and bcrypt 6 are deferred because each upgrade is a major change. The remaining dependency advisories are on those packages. The bcrypt advisory is in the `tar` package used while installing bcrypt, not in request handling.
 - Admin photo upload depends on a Cloudinary unsigned preset. The cloud name and preset come from the client environment.
-- Screenshots and a demo link will be added after a verified deployment.
-
 ## Screenshots
 
-Not captured yet. The public pages are still being finished, and there is no deployed site to photograph.
+Home page:
+
+![MotorMart home page](docs/screenshots/home.png)
