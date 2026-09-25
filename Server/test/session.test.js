@@ -79,6 +79,7 @@ describe("cookie session", { concurrency: false }, () => {
     assert.equal(options.httpOnly, true);
     assert.equal(options.secure, true);
     assert.equal(options.sameSite, "none");
+    assert.equal(options.partitioned, true);
   });
 
   it("clears the session cookie on logout", async () => {
