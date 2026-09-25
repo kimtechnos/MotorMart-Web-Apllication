@@ -186,7 +186,7 @@ GitHub Actions runs the same checks. The backend job uses a Postgres service and
 
 ## Security model
 
-The server is the authority for identity. The session cookie is HttpOnly. In production it is also `Secure` and `SameSite=None`, so a website on one host can call an API on another. Locally the cookie is not `Secure` and `SameSite` is `Lax`.
+The server is the authority for identity. The session cookie is HttpOnly. In production it is also `Secure`, `SameSite=None`, and `Partitioned`, so a website on one Render host can call an API on another in Chrome. Locally the cookie is not `Secure` and `SameSite` is `Lax`.
 
 Customers can update only their own profile. Admin routes require an admin role. Failed responses use short messages and do not return database errors or password hashes.
 

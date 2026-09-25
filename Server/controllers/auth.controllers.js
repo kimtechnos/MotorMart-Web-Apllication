@@ -12,6 +12,7 @@ export function sessionCookieOptions() {
     sameSite: production ? "none" : "lax",
     path: "/",
     maxAge: SESSION_MAX_AGE_MS,
+    ...(production ? { partitioned: true } : {}),
   };
 }
 
