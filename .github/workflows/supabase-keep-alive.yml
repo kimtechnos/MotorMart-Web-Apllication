@@ -24,15 +24,47 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           set -eu
+          SUPABASE_URL="$(printf '%s' "${SUPABASE_URL}" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/^["'\'']//;s/["'\'']$//')"
+          SUPABASE_ANON_KEY="$(printf '%s' "${SUPABASE_ANON_KEY}" | tr -d '\r' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/^["'\'']//;s/["'\'']$//')"
+          export SUPABASE_URL SUPABASE_ANON_KEY
           if [ -z "${SUPABASE_URL}" ] || [ -z "${SUPABASE_ANON_KEY}" ]; then
             echo "Missing repository secrets. Set SUPABASE_URL and SUPABASE_ANON_KEY."
             exit 1
           fi
 
-          BASE_URL="${SUPABASE_URL%/}"
-          HOST="$(python3 -c 'from urllib.parse import urlparse; import os; print(urlparse(os.environ["SUPABASE_URL"]).netloc)')"
+          eval "$(python3 <<'PY'
+          import os, re
+          from urllib.parse import urlparse
+
+          raw_url = os.environ["SUPABASE_URL"].strip().strip("\"'")
+          key = os.environ["SUPABASE_ANON_KEY"].strip().strip("\"'")
+          if re.fullmatch(r"[a-z0-9]{20}", raw_url):
+              raw_url = f"https://{raw_url}.supabase.co"
+          parsed = urlparse(raw_url)
+          if parsed.scheme not in ("https", "http") or not parsed.netloc:
+              raise SystemExit("SUPABASE_URL must be https://<project-ref>.supabase.co")
+          base = f"{parsed.scheme}://{parsed.netloc}"
+          if key.startswith("sb_secret_"):
+              raise SystemExit("SUPABASE_ANON_KEY is a secret key. Use the publishable or legacy anon key.")
+          if key.startswith("sb_publishable_"):
+              kind = "publishable"
+          elif key.startswith("eyJ"):
+              kind = "legacy-jwt"
+          else:
+              kind = "unknown"
+          print(f"BASE_URL={base}")
+          print(f"KEY_KIND={kind}")
+          PY
+          )"
+
+          echo "Requesting GET /rest/v1/keep_alive on host ${BASE_URL#https://}"
+          echo "API key kind: ${KEY_KIND}"
           ENDPOINT="${BASE_URL}/rest/v1/keep_alive?select=id,last_ping&id=eq.1"
-          echo "Requesting GET /rest/v1/keep_alive on host ${HOST}"
+
+          AUTH_ARGS=(-H "apikey: ${SUPABASE_ANON_KEY}" -H "Accept: application/json")
+          if [ "${KEY_KIND}" = "legacy-jwt" ]; then
+            AUTH_ARGS+=(-H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+          fi
 
           BODY="$(mktemp)"
           trap 'rm -f "${BODY}"' EXIT
@@ -45,9 +77,7 @@ jobs:
               curl -sS -o "${BODY}" -w "%{http_code}" \
                 --max-time 20 \
                 --connect-timeout 10 \
-                -H "apikey: ${SUPABASE_ANON_KEY}" \
-                -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
-                -H "Accept: application/json" \
+                "${AUTH_ARGS[@]}" \
                 "${ENDPOINT}"
             )" || http_code="000"
 
@@ -65,7 +95,7 @@ jobs:
               exit 0
             fi
 
-            if [ "${http_code}" = "401" ] || [ "${http_code}" = "403" ] || [ "${http_code}" = "404" ]; then
+            if [ "${http_code}" = "400" ] || [ "${http_code}" = "401" ] || [ "${http_code}" = "403" ] || [ "${http_code}" = "404" ]; then
               echo "Keep-alive failed with a client error. Not retrying."
               exit 1
             fi

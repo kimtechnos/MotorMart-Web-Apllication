@@ -9,7 +9,7 @@ Regular pings may reduce inactivity pausing on the Supabase Free plan. They are 
 1. Prisma migration `20261008120000_add_keep_alive` creates `public.keep_alive` with one row (`id = 1`).
 2. Row Level Security is on. Only `SELECT` is allowed for the `anon` and `authenticated` roles. There are no public insert, update, or delete policies.
 3. Workflow `.github/workflows/supabase-keep-alive.yml` runs every day at 08:00 UTC (11:00 AM Kenya time) and can also be started by hand. GitHub only runs scheduled workflows from the repository **default branch**. Merge this file there before the daily ping will fire.
-4. The job calls `GET /rest/v1/keep_alive?select=id,last_ping&id=eq.1` with the anon key. It retries transient failures and fails on HTTP errors.
+4. The job calls `GET /rest/v1/keep_alive?select=id,last_ping&id=eq.1`. A publishable key (`sb_publishable_...`) is sent only on the `apikey` header. A legacy JWT anon key is sent on both `apikey` and `Authorization`. It retries transient failures and fails on HTTP errors.
 
 The React app never calls this table. No Vercel serverless function is involved.
 
@@ -35,10 +35,10 @@ In the GitHub repo: **Settings → Secrets and variables → Actions → New rep
 
 | Secret | Value |
 | --- | --- |
-| `SUPABASE_URL` | Project URL from Supabase **Settings → API**, for example `https://<project-ref>.supabase.co`. No trailing slash. |
-| `SUPABASE_ANON_KEY` | The **anon / public** API key from the same page. |
+| `SUPABASE_URL` | `https://<project-ref>.supabase.co` from **Settings → General** (Project ID) or **Connect**. No trailing slash. |
+| `SUPABASE_ANON_KEY` | **API Keys → Publishable key** (`sb_publishable_...`), or the legacy **anon** JWT. |
 
-Do not store the service-role key. Do not put either value in the React client or in git.
+Do not store a **Secret** / `sb_secret_` / `service_role` key. Do not put either value in the React client or in git.
 
 ## Run the workflow by hand
 
@@ -64,7 +64,8 @@ Confirm in **Actions** that the latest scheduled or manual run is green.
 | Symptom | Likely cause |
 | --- | --- |
 | `Missing repository secrets` | `SUPABASE_URL` or `SUPABASE_ANON_KEY` is not set. |
-| HTTP 401 / 403 | Wrong anon key, or the URL is not this project. |
+| HTTP 400 Invalid JWT | Publishable key was sent as `Authorization: Bearer`. Use the updated workflow, which puts `sb_publishable_...` on `apikey` only. |
+| HTTP 401 / 403 | Wrong publishable/anon key, or the URL is not this project. |
 | HTTP 404 | Table is missing, or the REST path is wrong. Apply the migration. |
 | HTTP 200 with an empty array | Row `id = 1` was not inserted. Re-run the migration SQL. |
 | Timeout / HTTP 000 | Network issue, paused project, or wrong host. Retry; check the Supabase dashboard. |
