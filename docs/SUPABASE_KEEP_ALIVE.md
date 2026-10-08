@@ -1,6 +1,6 @@
 # Supabase keep-alive
 
-A GitHub Actions workflow runs a daily `SELECT` against a dedicated `public.keep_alive` table through the Supabase REST API. That creates real database activity even when nobody visits MotorMart.
+A GitHub Actions workflow runs a daily `SELECT` against a dedicated `public.keep_alive` table. It tries the Supabase REST API first. If PostgREST is down (`HTTP 503` / `PGRST002`), it falls back to the same Postgres URI MotorMart already uses on Render. That still creates real database activity even when nobody visits.
 
 Regular pings may reduce inactivity pausing on the Supabase Free plan. They are **not** a guarantee that the project will stay unpaused.
 
@@ -9,7 +9,8 @@ Regular pings may reduce inactivity pausing on the Supabase Free plan. They are 
 1. Prisma migration `20261008120000_add_keep_alive` creates `public.keep_alive` with one row (`id = 1`).
 2. Row Level Security is on. Only `SELECT` is allowed for the `anon` and `authenticated` roles. There are no public insert, update, or delete policies.
 3. Workflow `.github/workflows/supabase-keep-alive.yml` runs every day at 08:00 UTC (11:00 AM Kenya time) and can also be started by hand. GitHub only runs scheduled workflows from the repository **default branch**. Merge this file there before the daily ping will fire.
-4. The job calls `GET /rest/v1/keep_alive?select=id,last_ping&id=eq.1`. A publishable key (`sb_publishable_...`) is sent only on the `apikey` header. A legacy JWT anon key is sent on both `apikey` and `Authorization`. It retries transient failures and fails on HTTP errors.
+4. The job first calls `GET /rest/v1/keep_alive?select=id,last_ping&id=eq.1`. A publishable key (`sb_publishable_...`) is sent only on the `apikey` header.
+5. If REST keeps returning 503 because PostgREST cannot load its schema cache, the job runs `SELECT id, last_ping FROM public.keep_alive WHERE id = 1` with `DATABASE_URL`.
 
 The React app never calls this table. No Vercel serverless function is involved.
 
@@ -37,8 +38,9 @@ In the GitHub repo: **Settings → Secrets and variables → Actions → New rep
 | --- | --- |
 | `SUPABASE_URL` | `https://<project-ref>.supabase.co` from **Settings → General** (Project ID) or **Connect**. No trailing slash. |
 | `SUPABASE_ANON_KEY` | **API Keys → Publishable key** (`sb_publishable_...`), or the legacy **anon** JWT. |
+| `DATABASE_URL` | Same session-pooler URI as Render (`postgresql://postgres.<ref>:...@aws-....pooler.supabase.com:5432/postgres?sslmode=require`). Needed when the Data API returns `PGRST002`. |
 
-Do not store a **Secret** / `sb_secret_` / `service_role` key. Do not put either value in the React client or in git.
+Do not store a **Secret** / `sb_secret_` / `service_role` key. Do not put these values in the React client or in git.
 
 ## Run the workflow by hand
 
@@ -55,7 +57,7 @@ A good run shows:
 - Step **Query public.keep_alive**
 - `HTTP 200`
 - A JSON array such as `[{"id":1,"last_ping":"..."}]`
-- `Keep-alive succeeded.`
+- `Keep-alive succeeded over REST.` or `Keep-alive succeeded over SQL.`
 
 Confirm in **Actions** that the latest scheduled or manual run is green.
 
@@ -68,7 +70,7 @@ Confirm in **Actions** that the latest scheduled or manual run is green.
 | HTTP 401 / 403 | Wrong publishable/anon key, or the URL is not this project. |
 | HTTP 404 | Table is missing, or the REST path is wrong. Apply the migration. |
 | HTTP 200 with an empty array | Row `id = 1` was not inserted. Re-run the migration SQL. |
-| HTTP 503 `PGRST002` | PostgREST cannot read the schema cache. In Supabase **Settings → General**, click **Restart project** (not Pause), wait two minutes, then re-run the workflow. |
+| HTTP 503 `PGRST002` | PostgREST cannot read the schema cache. Enable **Settings → Data API**, or **Restart project** (not Pause). Also add the `DATABASE_URL` secret so the job can ping Postgres directly. |
 | Timeout / HTTP 000 | Network issue, paused project, or wrong host. Retry; check the Supabase dashboard. |
 
 The workflow prints the request host and response body. It does not print secrets or authorization headers.

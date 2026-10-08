@@ -16,9 +16,11 @@ jobs:
   ping:
     name: Ping keep_alive
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
-      - name: Query public.keep_alive
+      - name: Query keep_alive over REST
+        id: rest
+        continue-on-error: true
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -73,7 +75,7 @@ jobs:
           trap 'rm -f "${BODY}"' EXIT
 
           attempt=1
-          max_attempts=6
+          max_attempts=3
           while [ "${attempt}" -le "${max_attempts}" ]; do
             echo "Attempt ${attempt} of ${max_attempts}"
             ERR="$(mktemp)"
@@ -101,21 +103,54 @@ jobs:
                 echo "Database responded 200 but keep_alive row 1 was missing."
                 exit 1
               fi
-              echo "Keep-alive succeeded."
+              echo "Keep-alive succeeded over REST."
               exit 0
             fi
 
             if [ "${http_code}" = "400" ] || [ "${http_code}" = "401" ] || [ "${http_code}" = "403" ] || [ "${http_code}" = "404" ]; then
-              echo "Keep-alive failed with a client error. Not retrying."
+              echo "Keep-alive REST call failed with a client error."
               exit 1
             fi
 
             attempt=$((attempt + 1))
             if [ "${attempt}" -le "${max_attempts}" ]; then
-              echo "PostgREST is not ready yet (often HTTP 503 / PGRST002). Waiting 15s."
-              sleep 15
+              echo "PostgREST is not ready yet (often HTTP 503 / PGRST002). Waiting 10s."
+              sleep 10
             fi
           done
 
-          echo "Keep-alive failed after ${max_attempts} attempts."
+          echo "REST keep-alive did not succeed. A SQL fallback can still ping the database."
           exit 1
+
+      - name: Query keep_alive over SQL
+        if: steps.rest.outcome != 'success'
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          set -eu
+          if [ -z "${DATABASE_URL}" ]; then
+            echo "REST keep-alive failed with PostgREST 503/PGRST002, and DATABASE_URL is not set."
+            echo "Add a repository secret named DATABASE_URL with the same Postgres URI Render uses (session pooler, sslmode=require)."
+            echo "Also check Supabase → Settings → Data API is enabled, then Restart project."
+            exit 1
+          fi
+
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+
+          CLEAN_URL="$(python3 <<'PY'
+          import os
+          from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
+
+          raw = os.environ["DATABASE_URL"].strip().strip("\"'")
+          parsed = urlparse(raw)
+          query = [(k, v) for k, v in parse_qsl(parsed.query, keep_blank_values=True) if k != "schema"]
+          if not any(k == "sslmode" for k, _ in query):
+              query.append(("sslmode", "require"))
+          print(urlunparse(parsed._replace(query=urlencode(query))))
+          PY
+          )"
+
+          echo "Running SELECT on public.keep_alive through the Postgres pooler."
+          psql "$CLEAN_URL" -v ON_ERROR_STOP=1 -c "SELECT id, last_ping FROM public.keep_alive WHERE id = 1;"
+          echo "Keep-alive succeeded over SQL."
