@@ -68,6 +68,7 @@ Confirm in **Actions** that the latest scheduled or manual run is green.
 | HTTP 401 / 403 | Wrong publishable/anon key, or the URL is not this project. |
 | HTTP 404 | Table is missing, or the REST path is wrong. Apply the migration. |
 | HTTP 200 with an empty array | Row `id = 1` was not inserted. Re-run the migration SQL. |
+| HTTP 503 `PGRST002` | PostgREST cannot read the schema cache. In Supabase **Settings → General**, click **Restart project** (not Pause), wait two minutes, then re-run the workflow. |
 | Timeout / HTTP 000 | Network issue, paused project, or wrong host. Retry; check the Supabase dashboard. |
 
 The workflow prints the request host and response body. It does not print secrets or authorization headers.
