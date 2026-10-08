@@ -16,7 +16,7 @@ jobs:
   ping:
     name: Ping keep_alive
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Query public.keep_alive
         env:
@@ -43,6 +43,9 @@ jobs:
           parsed = urlparse(raw_url)
           if parsed.scheme not in ("https", "http") or not parsed.netloc:
               raise SystemExit("SUPABASE_URL must be https://<project-ref>.supabase.co")
+          host = parsed.netloc.lower()
+          if "pooler.supabase.com" in host or host.startswith("db.") or ":5432" in raw_url or raw_url.startswith("postgres"):
+              raise SystemExit("SUPABASE_URL is the database host. Use https://<project-ref>.supabase.co from Settings → General.")
           base = f"{parsed.scheme}://{parsed.netloc}"
           if key.startswith("sb_secret_"):
               raise SystemExit("SUPABASE_ANON_KEY is a secret key. Use the publishable or legacy anon key.")
@@ -70,18 +73,25 @@ jobs:
           trap 'rm -f "${BODY}"' EXIT
 
           attempt=1
-          max_attempts=3
+          max_attempts=6
           while [ "${attempt}" -le "${max_attempts}" ]; do
             echo "Attempt ${attempt} of ${max_attempts}"
+            ERR="$(mktemp)"
             http_code="$(
-              curl -sS -o "${BODY}" -w "%{http_code}" \
+              curl -4 -sS -o "${BODY}" -w "%{http_code}" \
                 --max-time 20 \
                 --connect-timeout 10 \
                 "${AUTH_ARGS[@]}" \
-                "${ENDPOINT}"
+                "${ENDPOINT}" \
+                2>"${ERR}"
             )" || http_code="000"
 
             echo "HTTP ${http_code}"
+            if [ -s "${ERR}" ]; then
+              echo "curl error:"
+              cat "${ERR}" || true
+            fi
+            rm -f "${ERR}"
             echo "Response body:"
             cat "${BODY}" || true
             echo
@@ -102,8 +112,8 @@ jobs:
 
             attempt=$((attempt + 1))
             if [ "${attempt}" -le "${max_attempts}" ]; then
-              echo "Retrying after a short delay."
-              sleep 5
+              echo "PostgREST is not ready yet (often HTTP 503 / PGRST002). Waiting 15s."
+              sleep 15
             fi
           done
 
