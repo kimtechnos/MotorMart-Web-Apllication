@@ -1,0 +1,81 @@
+name: Supabase keep-alive
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-keep-alive
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    name: Ping keep_alive
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Query public.keep_alive
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -eu
+          if [ -z "${SUPABASE_URL}" ] || [ -z "${SUPABASE_ANON_KEY}" ]; then
+            echo "Missing repository secrets. Set SUPABASE_URL and SUPABASE_ANON_KEY."
+            exit 1
+          fi
+
+          BASE_URL="${SUPABASE_URL%/}"
+          HOST="$(python3 -c 'from urllib.parse import urlparse; import os; print(urlparse(os.environ["SUPABASE_URL"]).netloc)')"
+          ENDPOINT="${BASE_URL}/rest/v1/keep_alive?select=id,last_ping&id=eq.1"
+          echo "Requesting GET /rest/v1/keep_alive on host ${HOST}"
+
+          BODY="$(mktemp)"
+          trap 'rm -f "${BODY}"' EXIT
+
+          attempt=1
+          max_attempts=3
+          while [ "${attempt}" -le "${max_attempts}" ]; do
+            echo "Attempt ${attempt} of ${max_attempts}"
+            http_code="$(
+              curl -sS -o "${BODY}" -w "%{http_code}" \
+                --max-time 20 \
+                --connect-timeout 10 \
+                -H "apikey: ${SUPABASE_ANON_KEY}" \
+                -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+                -H "Accept: application/json" \
+                "${ENDPOINT}"
+            )" || http_code="000"
+
+            echo "HTTP ${http_code}"
+            echo "Response body:"
+            cat "${BODY}" || true
+            echo
+
+            if [ "${http_code}" = "200" ]; then
+              if ! python3 -c 'import json,sys; data=json.load(open(sys.argv[1])); assert isinstance(data, list) and data, "expected a non-empty JSON array"' "${BODY}"; then
+                echo "Database responded 200 but keep_alive row 1 was missing."
+                exit 1
+              fi
+              echo "Keep-alive succeeded."
+              exit 0
+            fi
+
+            if [ "${http_code}" = "401" ] || [ "${http_code}" = "403" ] || [ "${http_code}" = "404" ]; then
+              echo "Keep-alive failed with a client error. Not retrying."
+              exit 1
+            fi
+
+            attempt=$((attempt + 1))
+            if [ "${attempt}" -le "${max_attempts}" ]; then
+              echo "Retrying after a short delay."
+              sleep 5
+            fi
+          done
+
+          echo "Keep-alive failed after ${max_attempts} attempts."
+          exit 1

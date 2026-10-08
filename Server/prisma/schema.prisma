@@ -61,6 +61,13 @@ model Inquiry {
   @@map("table_inquiries")
 }
 
+model KeepAlive {
+  id       Int      @id
+  lastPing DateTime @default(now()) @map("last_ping")
+
+  @@map("keep_alive")
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
