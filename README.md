@@ -208,6 +208,8 @@ Live URLs:
 - Website: [https://motormart-web-apllication-1.onrender.com/home](https://motormart-web-apllication-1.onrender.com/home)
 - API: `https://motormart-web-apllication.onrender.com`
 
+A scheduled GitHub Action pings a dedicated `keep_alive` table so the Free-tier Supabase project is less likely to pause. See [docs/SUPABASE_KEEP_ALIVE.md](docs/SUPABASE_KEEP_ALIVE.md).
+
 ## Known limitations
 
 - Vite 8, Vitest 5, React Router 7, and bcrypt 6 are deferred because each upgrade is a major change. The remaining dependency advisories are on those packages. The bcrypt advisory is in the `tar` package used while installing bcrypt, not in request handling.
