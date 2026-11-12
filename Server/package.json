@@ -7,7 +7,8 @@
   "scripts": {
     "test": "node --test --test-concurrency=1 \"test/**/*.test.js\"",
     "dev": "nodemon index.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "migrate:deploy": "node scripts/prisma-with-database-url.js migrate deploy"
   },
   "keywords": [],
   "author": "",
